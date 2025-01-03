@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-t_list get_element_n(t_list *node, int n)
+t_intlist get_element_n(t_intlist *node, int n)
 {
 	while(n--)
 	{
@@ -11,16 +11,12 @@ t_list get_element_n(t_list *node, int n)
 	return (node);
 }
 
-void	switch_elements(t_list *node1, t_list *node2)
+void	switch_elements(t_intlist *node1, t_intlist *node2)
 {
-	t_list	*tmp;
+	t_intlist	*tmp;
 
 	tmp = node1;
 	node1 = node2;
 	node2 = tmp;
 }
 
-void	push_element(t_list *node1, t_list *node2)
-{
-	
-}

@@ -13,22 +13,22 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-typedef struct	s_list
-{
-	int		element;
-	s_stack		*next;
-}			t_list;
-
-struct	s_stacks
-{
-	s_stack		*a;
-	s_stack		*b;
-	int		a_len;
-	int		b_len;
-};
-
 # include <stddef.h>
 # include <unistd.h>
 # include "libft_printf/ft_printf.h"
+
+typedef struct	s_intlist
+{
+	int		element;
+	s_intlist		*next;
+}			t_intlist;
+
+struct	s_stacks
+{
+	s_intlist		*a;
+	s_intlist		*b;
+	int		a_len;
+	int		b_len;
+};
 
 #endif

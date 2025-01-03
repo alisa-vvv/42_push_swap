@@ -1,10 +1,9 @@
 #include "push_swap.h"
 
-void	aa(struct s_stacks)
+void	aa(s_stacks stacks)
 {
 	int	tmp;
 
-	if (s_stacks->len_a <= 1)
+	if (stacks->len_a <= 1)
 		return ;
-	
 }

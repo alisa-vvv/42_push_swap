@@ -1,6 +1,8 @@
 #include "push_swap.h"
 
-add_element_front(t_list **
-{
+//create node
 
-}
+//free node
+// free list
+// add one front
+// add one back
