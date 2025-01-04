@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/24 12:25:24 by avaliull       ########   odam.nl        */
+/*   Updated: 2025/01/04 14:37:42 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,21 @@
 typedef struct	s_intlist
 {
 	int		element;
-	s_intlist		*next;
+	struct s_intlist		*next;
 }			t_intlist;
 
-struct	s_stacks
+typedef struct	s_stacks
 {
-	s_intlist		*a;
-	s_intlist		*b;
+	t_intlist		*a;
+	t_intlist		*b;
 	int		a_len;
 	int		b_len;
-};
+}			t_stacks;
+
+/* list functions */
+void	fill_stack(t_intlist *a, int count, char **numbers);
+t_stacks	*allocate_stacks(int count);
+void	free_all(t_stacks *stacks);
+void	switch_elements(t_intlist *node1, t_intlist *node2);
 
 #endif

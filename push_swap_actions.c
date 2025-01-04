@@ -1,9 +1,9 @@
 #include "push_swap.h"
 
-void	aa(s_stacks stacks)
+void	aa(t_stacks stacks)
 {
-	int	tmp;
-
-	if (stacks->len_a <= 1)
+	if (stacks.a_len <= 1)
 		return ;
+	switch_elements(stacks.a, stacks.a->next);
 }
+

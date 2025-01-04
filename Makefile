@@ -6,11 +6,14 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2024/12/17 13:47:55 by avaliull       ########   odam.nl         #
+#    Updated: 2025/01/04 12:35:07 by avaliull       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
-CFILES	=	push_swap.c
+CFILES	=	push_swap.c\
+		push_swap_actions.c\
+		list_ops/list_funcs.c\
+		list_ops/list_wrappers.c
 
 OFILES	= $(CFILES:.c=.o)
 

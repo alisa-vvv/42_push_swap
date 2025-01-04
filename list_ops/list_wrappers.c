@@ -1,6 +1,6 @@
-#include "push_swap.h"
+#include "../push_swap.h"
 
-t_intlist get_element_n(t_intlist *node, int n)
+t_intlist *get_element_n(t_intlist *node, int n)
 {
 	while(n--)
 	{
