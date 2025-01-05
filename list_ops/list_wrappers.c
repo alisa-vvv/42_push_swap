@@ -2,21 +2,18 @@
 
 t_intlist *get_element_n(t_intlist *node, int n)
 {
-	while(n--)
-	{
-		if (!node->next)
-			break ;
+	while(--n)
 		node = node->next;
-	}
 	return (node);
 }
 
-void	switch_elements(t_intlist *node1, t_intlist *node2)
+void	switch_elements(t_intlist *prev, t_intlist *node1, t_intlist *node2)
 {
-	t_intlist	*tmp;
+	t_intlist	*tmp_next;
 
-	tmp = node1;
-	node1 = node2;
-	node2 = tmp;
+	tmp_next = node2->next;
+	node2->next = node1;
+	node1->next = tmp_next;
+	prev->next = node2;
 }
 
