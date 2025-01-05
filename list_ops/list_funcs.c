@@ -3,51 +3,67 @@
 void	fill_stack(t_intlist *a, int count, char **numbers)
 {
 	int	i;
+	t_intlist	*head;
+	t_intlist	*new_node;
 
-	i = 0;
+	head = a;
+	a = add_node("FUNCTION TO CHECK VALIDITY -> FUNCTION TO CONVERT -> ALLOC");
+	if (!a)
+		free_exit(stacks, 1);
+	head->next = a;
+	i = 1;
 	while (i < count)
 	{
-		a[i].element = ft_atoi(numbers[i]);
-		a[i].next = &a[i + 1];
-		i++;
+		new_node = add_node("FUNCTION TO CHECK VALIDITY -> FUNCTION TO CONVERT -> ALLOC");
+		if (!new_node)
+			free_exit(stacks, 1);
+		a->next = new_node;
+		a = new_node;
 	}
-	a[i - 1].next = a;
+	a->next = head;
 }
 
 t_stacks	*allocate_stacks(int count)
 {
-	t_intlist	*new_list_a;
-	t_intlist	*new_list_b;
 	t_stacks	*stacks;
 
-	new_list_a = (t_intlist *) malloc(sizeof (t_intlist) * count);
-	if (!new_list_a)
-		return (NULL);
-	new_list_b = (t_intlist *) malloc(sizeof (t_intlist) * count);
-	if (!new_list_b)
-	{
-		free(new_list_a);
-		return (NULL);
-	}
 	stacks = (t_stacks *) malloc(sizeof(t_stacks));
 	if (!stacks)
-	{
-		free(new_list_a);
-		free(new_list_b);
 		return (NULL);
-	}
-	stacks->a = new_list_a;
-	stacks->b = new_list_b;
 	stacks->a_len = count;
 	stacks->b_len = 0;
 	return (stacks);
 }
 
-void	free_all(t_stacks *stacks)
+void	free_node(t_intlist *prev, t_intlist *node, int *len)
 {
-	free(stacks->a);
-	free(stacks->b);
+	t_intlist	tmp_node;
+
+	prev->next = node->next;
+	(*len)--;
+	free(node);
+}
+
+t_intlist	*add_node(int element)
+{
+	t_intlist	*new_node;
+
+	new_node = (t_intlist *) malloc(sizeof(t_intlist));
+	if (!new_node)
+		return (NULL);
+	new_node->element = element;
+	return (new_node);
+}
+
+//	error_chek is 0 on success, 1 on fail
+void	free_exit(t_stacks *stacks, int error_check)
+{
+	("loop to free both nodes");
 	free(stacks);
+// HERE, CHECK HOW TO USE A MACRO FOR STDERR INSTAD OF A NUMBER MAYBE
+	if (error == 1)
+		write(2, "Error\n", 6);
+	exit (error_check);
 }
 //create node
 
