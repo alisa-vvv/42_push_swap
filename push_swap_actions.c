@@ -9,7 +9,7 @@ void	sa(t_stacks *stacks)
 		return ;
 	new_head = stacks->a->next;
 	last_node = get_element_n(stacks->a, stacks->len_a);
-	switch_elements(last_node, stacks->a, stacks->a->next);
+	swap_nodes(last_node, stacks->a, stacks->a->next);
 	stacks->a = new_head;
 }
 
@@ -22,7 +22,7 @@ void	sb(t_stacks *stacks)
 		return ;
 	new_head = stacks->b->next;
 	last_node = get_element_n(stacks->b, stacks->len_b);
-	switch_elements(last_node, stacks->b, stacks->b->next);
+	swap_nodes(last_node, stacks->b, stacks->b->next);
 	stacks->b = new_head;
 }
 
@@ -36,7 +36,7 @@ void	ss(t_stacks *stacks)
 		ft_printf("testing sa in ss\n");
 		new_head = stacks->a->next;
 		last_node = get_element_n(stacks->a, stacks->len_a);
-		switch_elements(last_node, stacks->a, stacks->a->next);
+		swap_nodes(last_node, stacks->a, stacks->a->next);
 		stacks->a = new_head;
 	}
 	if (stacks->len_b > 1)
@@ -44,7 +44,7 @@ void	ss(t_stacks *stacks)
 		ft_printf("testing sb in ss\n");
 		new_head = stacks->b->next;
 		last_node = get_element_n(stacks->b, stacks->len_b);
-		switch_elements(last_node, stacks->b, stacks->b->next);
+		swap_nodes(last_node, stacks->b, stacks->b->next);
 		stacks->b = new_head;
 	}
 }

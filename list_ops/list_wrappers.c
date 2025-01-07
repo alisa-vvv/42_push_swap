@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/01/07 18:42:06 by avaliull       #+#    #+#                */
-/*   Updated: 2025/01/07 18:42:07 by avaliull       ########   odam.nl        */
+/*   Updated: 2025/01/07 19:40:38 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_intlist *get_element_n(t_intlist *node, int n)
 	return (node);
 }
 
-void	switch_elements(t_intlist *prev, t_intlist *node1, t_intlist *node2)
+void	swap_nodes(t_intlist *prev, t_intlist *node1, t_intlist *node2)
 {
 	t_intlist	*tmp_next;
 

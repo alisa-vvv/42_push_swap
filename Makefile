@@ -6,7 +6,7 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2025/01/07 19:24:12 by avaliull       ########   odam.nl         #
+#    Updated: 2025/01/07 19:46:16 by avaliull       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ RM	= rm -f
 AR	= ar -rcs
 
 NAME	= push_swap.a
+
+INPUT	= 6 7 1
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -58,4 +60,10 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re libft_printf_clean
+test:	all
+	$(CC) $(CFLAGS) $(NAME) ; ./a.out $(INPUT)
+
+leak:	all
+	$(CC) $(CFLAGS) $(NAME) ; valgrind -s ./a.out $(INPUT)
+
+.PHONY:	all clean fclean re libft_printf_clean test leak
