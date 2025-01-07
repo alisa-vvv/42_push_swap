@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:33:13 by avaliull          #+#    #+#             */
-/*   Updated: 2025/01/07 18:35:19 by avaliull       ########   odam.nl        */
+/*   Updated: 2025/01/07 19:30:40 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,19 @@ typedef struct	s_stacks
 	int		len_b;
 }			t_stacks;
 
-/* list functions */
-void	fill_stack(t_stacks *stacks, int count, char **numbers);
+/* t_intlist initialzation */
+t_intlist	*add_node(int element);
+void		free_node(t_intlist *node, int *len);
+/* t_intlist wrappers */
+void		swap_nodes(t_intlist *prev, t_intlist *node1, t_intlist *node2);
+t_intlist 	*get_element_n(t_intlist *node, int n);
+
+/* t_stacks allocation and clearing */
 t_stacks	*allocate_stacks(int count);
-t_intlist *get_element_n(t_intlist *node, int n);
-void	free_exit(t_stacks *stacks, int error_check);
-void	switch_elements(t_intlist *prev, t_intlist *node1, t_intlist *node2);
-/* actions */
+void		fill_stack(t_stacks *stacks, int count, char **numbers);
+void		free_exit(t_stacks *stacks, int error_check);
+
+/* swap actions */
 void	sa(t_stacks *stacks);
 void	sb(t_stacks *stacks);
 void	ss(t_stacks *stacks);
