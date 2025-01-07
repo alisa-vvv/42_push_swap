@@ -6,7 +6,7 @@
 #    By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 12:39:24 by avaliull          #+#    #+#              #
-#    Updated: 2025/01/07 19:46:16 by avaliull       ########   odam.nl         #
+#    Updated: 2025/01/07 19:48:57 by avaliull       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,13 +46,13 @@ $(NAME): $(OFILES) $(LIBFT_PRINTF)
 	cp $(LIBFT_PRINTF) $(NAME)
 	$(AR) $(NAME) $(OFILES)
 
-libft_printf_clean:
+libs_clean:
 	$(MAKE) clean -C $(LIBFT_PRINTF_DIR)
 
 # this is for bonus
 # bonus: all
 
-clean: libft_printf_clean
+clean: libs_clean
 	$(RM) $(OFILES)
 
 fclean:	clean
@@ -66,4 +66,4 @@ test:	all
 leak:	all
 	$(CC) $(CFLAGS) $(NAME) ; valgrind -s ./a.out $(INPUT)
 
-.PHONY:	all clean fclean re libft_printf_clean test leak
+.PHONY:	all clean fclean re libs_clean test leak
