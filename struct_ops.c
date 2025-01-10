@@ -18,9 +18,11 @@ void	fill_stack(t_stacks *stacks, int count, char **numbers)
 		if (!new_node)
 			free_exit(stacks, 1);
 		stacks->a->next = new_node;
+		new_node->prev = stacks->a;
 		stacks->a = new_node;
 		i++;
 	}
+	head->prev = stacks->a;
 	stacks->a->next = head;
 	stacks->a = head;
 }

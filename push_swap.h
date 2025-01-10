@@ -20,6 +20,7 @@
 typedef struct	s_intlist
 {
 	int		element;
+	struct s_intlist		*prev;
 	struct s_intlist		*next;
 }			t_intlist;
 
@@ -35,7 +36,7 @@ typedef struct	s_stacks
 t_intlist	*add_node(int element);
 void		free_node(t_intlist *node, int *len);
 /* t_intlist wrappers */
-void		swap_nodes(t_intlist *prev, t_intlist *node1, t_intlist *node2);
+void	swap_nodes(t_intlist *node1, t_intlist *node2);
 t_intlist 	*get_element_n(t_intlist *node, int n);
 
 /* t_stacks allocation and clearing */

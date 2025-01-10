@@ -25,12 +25,8 @@ t_intlist	*add_node(int element)
 
 void	free_node(t_intlist *node, int *len)
 {
-	t_intlist	*prev_node;
-
-	prev_node = node;
-	while(prev_node->next != node)
-		prev_node = prev_node->next;
-	prev_node->next = node->next;
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
 	(*len)--;
 	free(node);
 }

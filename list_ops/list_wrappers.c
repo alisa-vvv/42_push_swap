@@ -19,13 +19,15 @@ t_intlist *get_element_n(t_intlist *node, int n)
 	return (node);
 }
 
-void	swap_nodes(t_intlist *prev, t_intlist *node1, t_intlist *node2)
+void	swap_nodes(t_intlist *node1, t_intlist *node2)
 {
 	t_intlist	*tmp_next;
 
 	tmp_next = node2->next;
 	node2->next = node1;
 	node1->next = tmp_next;
-	prev->next = node2;
+	node2->prev = node1->prev;
+	node1->prev->next = node2;
+	node1->prev = node2;
 }
 
