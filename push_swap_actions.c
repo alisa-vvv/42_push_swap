@@ -31,7 +31,6 @@ void	ss(t_stacks *stacks)
 		ft_printf("testing sa in ss\n");
 		new_head = stacks->a->next;
 		swap_nodes(stacks->a, stacks->a->next);
-		ft_printf("where segfault\n");
 		stacks->a = new_head;
 	}
 	if (stacks->len_b > 1)

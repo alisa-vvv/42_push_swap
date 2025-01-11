@@ -14,7 +14,9 @@ CFILES	=	push_swap.c\
 		push_swap_actions.c\
 		list_ops/list_funcs.c\
 		list_ops/list_wrappers.c\
-		struct_ops.c
+		struct_ops.c\
+		pushes.c\
+		test_funcs.c
 
 OFILES	= $(CFILES:.c=.o)
 
@@ -32,7 +34,7 @@ AR	= ar -rcs
 
 NAME	= push_swap.a
 
-INPUT	= 6 7 1
+INPUT	= 6 7 1 89 9324
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -48,5 +48,10 @@ void		free_exit(t_stacks *stacks, int error_check);
 void	sa(t_stacks *stacks);
 void	sb(t_stacks *stacks);
 void	ss(t_stacks *stacks);
+void	pa(t_stacks *stacks);
+void	pb(t_stacks *stacks);
+
+/* test functions (keep commented) */
+void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next);
 
 #endif
