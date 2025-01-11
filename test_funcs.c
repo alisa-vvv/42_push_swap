@@ -1,5 +1,6 @@
 #include "push_swap.h"
 
+//	REFACTOR THIS SO PRINT_STACK_A AND PTRINT_STACK_B ARE SEPARATE FUNCS
 void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 {
 	int	element_num;
