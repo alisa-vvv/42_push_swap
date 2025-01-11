@@ -50,8 +50,15 @@ void	sb(t_stacks *stacks);
 void	ss(t_stacks *stacks);
 void	pa(t_stacks *stacks);
 void	pb(t_stacks *stacks);
+void	ra(t_stacks *stacks);
+void	rb(t_stacks *stacks);
+void	rr(t_stacks *stacks);
+void	rra(t_stacks *stacks);
+void	rrb(t_stacks *stacks);
+void	rrs(t_stacks *stacks);
 
 /* test functions (keep commented) */
 void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next);
+void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n);
 
 #endif
