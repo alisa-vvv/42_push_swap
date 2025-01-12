@@ -33,7 +33,7 @@ typedef struct	s_stacks
 }			t_stacks;
 
 /* t_intlist initialzation */
-t_intlist	*add_node(int element);
+t_intlist	*add_node(int init_val);
 void		free_node(t_intlist *node, int *len);
 /* t_intlist wrappers */
 void	swap_nodes(t_intlist *node1, t_intlist *node2);

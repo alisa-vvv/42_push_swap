@@ -13,7 +13,7 @@
 CFILES	=	push_swap.c\
 		list_ops/list_funcs.c\
 		list_ops/list_wrappers.c\
-		struct_ops.c\
+		stack_init/struct_ops.c\
 		test_funcs.c\
 		operations/swaps.c\
 		operations/pushes.c\
@@ -36,7 +36,7 @@ AR	= ar -rcs
 
 NAME	= push_swap.a
 
-INPUT	= 1 2
+INPUT	= -1 2 3 4 5 6 7 8
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -68,6 +68,6 @@ test:	all
 	$(CC) $(CFLAGS) $(NAME) ; ./a.out $(INPUT)
 
 leak:	all
-	$(CC) $(CFLAGS) $(NAME) ; valgrind -s ./a.out $(INPUT)
+	$(CC) $(CFLAGS) -g $(NAME) ; valgrind -s ./a.out $(INPUT)
 
 .PHONY:	all clean fclean re libs_clean test leak
