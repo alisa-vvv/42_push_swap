@@ -9,8 +9,8 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 	{
 		ft_printf("\n Stack %c has 1 element:\n", a_or_b);
 		ft_printf("\tValue: %d\n", stack->element);
-		ft_printf("\t\tNext: %d\n", stack->next->element);
 		ft_printf("\t\tPrev: %d\n", stack->prev->element);
+		ft_printf("\t\tNext: %d\n", stack->next->element);
 	}
 	else if (len == 0)
 	{
@@ -27,8 +27,8 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 			{
 				ft_printf("    Element #%d:\n", element_num);
 				ft_printf("\tValue: %d\n", stack->element);
-				ft_printf("\t\tNext: %d\n", stack->next->element);
 				ft_printf("\t\tPrev: %d\n", stack->prev->element);
+				ft_printf("\t\tNext: %d\n", stack->next->element);
 				element_num++;
 				stack = stack->next;
 			}

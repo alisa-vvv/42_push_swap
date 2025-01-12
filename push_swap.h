@@ -55,7 +55,7 @@ void	rb(t_stacks *stacks);
 void	rr(t_stacks *stacks);
 void	rra(t_stacks *stacks);
 void	rrb(t_stacks *stacks);
-void	rrs(t_stacks *stacks);
+void	rrr(t_stacks *stacks);
 
 /* test functions (keep commented) */
 void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next);

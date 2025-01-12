@@ -36,7 +36,7 @@ AR	= ar -rcs
 
 NAME	= push_swap.a
 
-INPUT	= 1 2 3 4 5
+INPUT	= 1 2
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

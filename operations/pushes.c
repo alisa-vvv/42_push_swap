@@ -9,8 +9,8 @@ t_intlist	*push(t_intlist *src, t_intlist *dst, int len_src, int len_dst)
 	{
 		src_prev = src->prev;
 		src_next = src->next;
-		src_prev->next = src_next;
-		src_next->prev = src_prev;
+		src_prev->next = src->next;
+		src_next->prev = src->prev;
 	}
 	if (len_dst == 0)
 	{
@@ -43,6 +43,7 @@ void	pa(t_stacks *stacks)
 		stacks->b = b_next;
 	else
 		stacks->b = NULL;
+	ft_printf("pa\n");
 }
 
 void	pb(t_stacks *stacks)
@@ -59,4 +60,5 @@ void	pb(t_stacks *stacks)
 		stacks->a = a_next;
 	else
 		stacks->a = NULL;
+	ft_printf("pb\n");
 }
