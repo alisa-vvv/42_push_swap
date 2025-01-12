@@ -14,6 +14,7 @@ CFILES	=	push_swap.c\
 		list_ops/list_funcs.c\
 		list_ops/list_wrappers.c\
 		stack_init/struct_ops.c\
+		stack_init/exit.c\
 		test_funcs.c\
 		operations/swaps.c\
 		operations/pushes.c\
