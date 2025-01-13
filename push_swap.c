@@ -1,5 +1,11 @@
 #include "push_swap.h"
 
+void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
+{
+	while(n--)
+		f(stacks);
+}
+
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;

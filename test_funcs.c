@@ -47,8 +47,3 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 	ft_printf(" End of stack %c.\n\n", a_or_b);
 }
 
-void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
-{
-	while(n--)
-		f(stacks);
-}

@@ -13,7 +13,7 @@
 CFILES	=	push_swap.c\
 		list_ops/list_funcs.c\
 		list_ops/list_wrappers.c\
-		stack_init/struct_ops.c\
+		stack_init/init.c\
 		stack_init/exit.c\
 		test_funcs.c\
 		operations/swaps.c\
@@ -37,7 +37,7 @@ AR	= ar -rcs
 
 NAME	= push_swap.a
 
-INPUT	= -1 2 3 4 5 6 7 8
+INPUT	= -1 2 3 4 -5 6 7 8
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
