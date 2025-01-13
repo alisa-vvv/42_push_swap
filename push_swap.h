@@ -32,6 +32,35 @@ typedef struct	s_stacks
 	int		len_b;
 }			t_stacks;
 
+typedef enum	rot_dir
+{
+	CLOCKWISE,
+	CR_CLOCKWISE,
+}	e_rot_dir;
+
+typedef void	(*operation)(t_stacks *stacks);
+
+typedef struct	s_oplist
+{
+	operation	op;
+	struct s_oplist	*next_op;
+}			t_oplist;
+
+typedef struct	s_opcount
+{
+	int	sa_count;
+	int	sb_count;
+	int	ss_count;
+	int	pa_count;
+	int	pb_count;
+	int	ra_count;
+	int	rb_count;
+	int	rr_count;
+	int	rra_count;
+	int	rrb_count;
+	int	rrr_count;
+}		t_opcount;
+
 /* t_intlist initialzation */
 t_intlist	*add_node(int init_val);
 void		free_node(t_intlist *node, int *len);
@@ -43,6 +72,9 @@ t_intlist 	*get_element_n(t_intlist *node, int n);
 t_stacks	*allocate_stacks(int count);
 void		fill_stack(t_stacks *stacks, int count, char **numbers);
 void		free_exit(t_stacks *stacks, int error_check);
+
+/* sorting */
+void	quicksort(t_stacks *stacks, t_oplist *oplist, t_opcount *opcount);
 
 /* swap actions */
 void	sa(t_stacks *stacks);

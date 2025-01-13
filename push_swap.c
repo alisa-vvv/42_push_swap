@@ -6,10 +6,16 @@ void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
 		f(stacks);
 }
 
+
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
+	t_opcount	*opcount;
+	t_oplist	*oplist;
 
+	// ALLOC THIS LATER
+	oplist = NULL;
+  	opcount = NULL;
 	if (argc == 1)	
 	{
 		ft_printf("argc is one, remove this later\n");
@@ -31,6 +37,7 @@ int	main(int argc, char **argv)
 	//pb(stacks);
 	//sa(stacks);
 	//sb(stacks);
+
 	//ss(stacks);
 	//ra(stacks);
 	//rb(stacks);
@@ -40,6 +47,7 @@ int	main(int argc, char **argv)
 	//rrr(stacks);
 	//print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
+	quicksort(stacks, oplist, opcount);
 	free_exit(stacks, 0);
 	return (0);
 }

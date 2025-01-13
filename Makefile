@@ -11,10 +11,11 @@
 # **************************************************************************** #
 
 CFILES	=	push_swap.c\
+		sorting.c\
 		list_ops/list_funcs.c\
 		list_ops/list_wrappers.c\
-		stack_init/init.c\
-		stack_init/exit.c\
+		init_exit/init.c\
+		init_exit/exit.c\
 		test_funcs.c\
 		operations/swaps.c\
 		operations/pushes.c\
@@ -37,7 +38,7 @@ AR	= ar -rcs
 
 NAME	= push_swap.a
 
-INPUT	= -1 2 3 4 -5 6 7 8
+INPUT	= -1 2 3 4 5 6 7 -8
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
