@@ -1,6 +1,6 @@
 #include "../push_swap.h"
 
-void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node)
+static void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node)
 {
 	t_intlist	*tmp_next;
 

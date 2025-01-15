@@ -46,6 +46,21 @@ typedef struct	s_oplist
 	struct s_oplist	*next_op;
 }			t_oplist;
 
+//typedef enum	ops
+//{
+//	swap,
+//	push,
+//	rotate,
+//	r_rotate,
+//}	e_ops;
+//
+//typedef	enum	op_stack
+//{
+//	a,
+//	b,
+//	both,
+//}	e_op_stack;
+
 typedef struct	s_opcount
 {
 	int	sa_count;
@@ -75,6 +90,7 @@ void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
 void	quicksort(t_stacks *stacks, t_oplist *oplist, t_opcount *opcount);
+void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks);
 
 /* swap actions */
 void	sa(t_stacks *stacks);
