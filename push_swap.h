@@ -55,20 +55,20 @@ typedef enum	op_name
 
 typedef void	(*operation)(t_stacks *stacks);
 
-typedef struct	s_opcount
-{
-	int	sa_count;
-	int	sb_count;
-	int	ss_count;
-	int	pa_count;
-	int	pb_count;
-	int	ra_count;
-	int	rb_count;
-	int	rr_count;
-	int	rra_count;
-	int	rrb_count;
-	int	rrr_count;
-}		t_opcount;
+//typedef struct	s_opcount
+//{
+//	int	sa_count;
+//	int	sb_count;
+//	int	ss_count;
+//	int	pa_count;
+//	int	pb_count;
+//	int	ra_count;
+//	int	rb_count;
+//	int	rr_count;
+//	int	rra_count;
+//	int	rrb_count;
+//	int	rrr_count;
+//}		t_opcount;
 
 /* t_intlist initialzation */
 t_intlist	*add_node(int init_val);
