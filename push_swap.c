@@ -66,26 +66,15 @@ int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
 	t_opcount	*opcount;
-	t_oplist	*oplist;
 
-	// ALLOC THIS LATER
-	oplist = NULL;
-	if (argc == 1)	
-	{
-		ft_printf("argc is one, remove this later\n");
+	if (argc == 1 || argc == 2)	
 		exit (0);
-	}
-	if (argc == 2)
-		exit(0);
 	stacks = allocate_stacks(argc - 1);
 	if (!stacks)
-	{
-		ft_printf("alloc failed");
 		free_exit(stacks, 1);
-	}
 	fill_stack(stacks, argc - 1, &argv[1]);
 	opcount = set_opcount();
-	print_stack(stacks->a, stacks->len_a, 'a', 1);
+//	print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
 	//do_n_times(stacks, pb, 2);
 	//pa(stacks);
@@ -102,9 +91,9 @@ int	main(int argc, char **argv)
 	//rrr(stacks);
 	//print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
-//	quicksort(stacks, oplist, opcount);
-	sort_three('a', stacks->a, stacks);
-	print_stack(stacks->a, stacks->len_a, 'a', 1);
+	quicksort(stacks);
+//	sort_three('a', stacks->a, stacks);
+//	print_stack(stacks->a, stacks->len_a, 'a', 1);
 	free_exit(stacks, 0);
 	return (0);
 }

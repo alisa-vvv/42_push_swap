@@ -20,8 +20,6 @@ static void	print_err_and_exit(int error_check)
 {
 	if (error_check)
 		write(STDERR_FILENO, "Error\n", 6);
-	if (!error_check)
-		ft_printf("no error (remember to delete this)\n");
 	exit(error_check);
 
 }

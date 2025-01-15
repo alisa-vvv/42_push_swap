@@ -20,51 +20,75 @@ t_intlist	*choose_pivot(t_intlist *cur_node, int len)
 	return (cur_node);
 }
 
-e_rot_dir	determine_rot_dir (t_intlist *target, t_intlist *top, int len)
-{
-	t_intlist	*cur_node;
-	int		rot_count;
-	
-	cur_node = top;
-	rot_count = 0;
-	while (cur_node != target)
-	{
-		if (rot_count * 2 > len)
-			return (CR_CLOCKWISE);
-		cur_node = cur_node->next;
-		rot_count++;
-	}
-	return (CLOCKWISE);
-		
-}
-t_intlist	*qs_comp(t_intlist *start, t_intlist *end, e_rot_dir dir, int pivot)
-{
-	t_intlist	*cur_node;
+//void	qs_a_swap(t_intlist *low, t_intlist *high, t_stacks *stacks, t_intlist *pivot)
+//{
+//	e_rot_dir	rot_dir_low;
+//	e_rot_dir	rot_dir_high;
+//	t_intlist	*cur_node;
+//	t_intlist	*low_prev;
+//
+//	rot_dir_high = determine_rot_dir(high_val);
+//	rot_dir_low = determine_rot_dir(low_val);
+//	pb(stacks);
+//	if (rot_dir_low == CLOCKWISE)
+//	{
+//		while (stacks->a != low_val)
+//			rra(stacks);
+//	}
+//	else
+//	{
+//		while (stacks->a != low_val)
+//			ra(stacks);
+//	}
+//	// this can be optimized by eliming rotation if there's onnly one element
+//	if (stacks->b->element = pivot)
+//		rb(stacks);
+//}
+//
+//e_rot_dir	determine_rot_dir (t_intlist *target, t_intlist *top, int len)
+//{
+//	t_intlist	*cur_node;
+//	int		rot_count;
+//	
+//	cur_node = top;
+//	rot_count = 0;
+//	while (cur_node != target)
+//	{
+//		if (rot_count * 2 > len)
+//			return (CR_CLOCKWISE);
+//		cur_node = cur_node->next;
+//		rot_count++;
+//	}
+//	return (CLOCKWISE);
+//}
+//
+//t_intlist	*qs_comp(t_intlist *start, t_intlist *end, e_rot_dir dir, int pivot)
+//{
+//	t_intlist	*cur_node;
+//
+//	cur_node = start;
+//	if (dir == CLOCKWISE)
+//	{
+//		while (cur_node != end)
+//		{
+//			if (cur_node->element < pivot)
+//				return (cur_node);
+//			cur_node = cur_node->next;
+//		}
+//	}
+//	if (dir == CR_CLOCKWISE)
+//	{
+//		while (cur_node != end)
+//		{
+//			if (cur_node->element > pivot)
+//				return (cur_node);
+//			cur_node = cur_node->prev;
+//		}
+//	}
+//	return (cur_node);
+//}
 
-	cur_node = start;
-	if (dir == CLOCKWISE)
-	{
-		while (cur_node != end)
-		{
-			if (cur_node->element < pivot)
-				return (cur_node);
-			cur_node = cur_node->next;
-		}
-	}
-	if (dir == CR_CLOCKWISE)
-	{
-		while (cur_node != end)
-		{
-			if (cur_node->element >= pivot)
-				return (cur_node);
-			cur_node = cur_node->prev;
-		}
-	}
-	return (cur_node);
-}
-
-void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks)
-{
+void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks) {
 	const int el1 = sorted_stack->element;
 	const int el2 = sorted_stack->next->element;
 	const int el3 = sorted_stack->prev->element;
@@ -95,17 +119,12 @@ void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks)
 	}
 }
 
-// This should probably return the oplist.
-void	quicksort(t_stacks *stacks, t_oplist *oplist, t_opcount *opcount)
+void	quicksort(t_stacks *stacks)
 {
 	t_intlist	*pivot;
 	t_intlist	*low_val;
 	t_intlist	*high_val;
 	int			cur_len;
-
-	// REMOVE THIS, THESE VALUES WILL BE REAL LATER
-	oplist = NULL;
-	opcount = NULL;
 
 	pivot = choose_pivot(stacks->a, stacks->len_a);
 	cur_len = stacks->len_a;
@@ -113,7 +132,4 @@ void	quicksort(t_stacks *stacks, t_oplist *oplist, t_opcount *opcount)
 	ft_printf("pivot: %d\n", pivot->element);
 	low_val = qs_comp(stacks->a, stacks->a->prev, CLOCKWISE, pivot->element);
 	high_val = qs_comp(stacks->a->prev, stacks->a, CR_CLOCKWISE, pivot->element);
-
-	ft_printf("this should be less then pivot: %d\n", low_val->element);
-	ft_printf("this should be higher than puvot: %d\n", high_val->element);
 }
