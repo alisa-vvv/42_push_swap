@@ -5,17 +5,17 @@ t_intlist	*choose_pivot(t_intlist *cur_node, int len)
 //	int	values[3];
 //	int	comp;
 //
-//	val1 = cur_node->element;
-//	val2 = cur_node->prev->element;
+//	el1 = cur_node->element;
+//	el2 = cur_node->prev->element;
 //	len = len / 2;
 //	while (len--)
 //		cur_node = cur_node->next;
 	len = 0; // REMOVE THIS THIS IS FOR COMPILER TO NOT CRY
 	return (cur_node);
-//	val3 = cur_node->element;
-//	while (val3 < comp)
+//	el3 = cur_node->element;
+//	while (el3 < comp)
 //	{
-//		comp = val1;
+//		comp = el1;
 //	}
 	return (cur_node);
 }
@@ -65,29 +65,28 @@ t_intlist	*qs_comp(t_intlist *start, t_intlist *end, e_rot_dir dir, int pivot)
 
 void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks)
 {
-	const int val1 = sorted_stack->element;
-	const int val2 = sorted_stack->next->element;
-	const int val3 = sorted_stack->prev->element;
+	const int el1 = sorted_stack->element;
+	const int el2 = sorted_stack->next->element;
+	const int el3 = sorted_stack->prev->element;
 	
-	if (val1 < val2 && val2 < val3)
+	if (el1 < el2 && el2 < el3)
 		return ;
-	if (val1 < val2 && val2 > val3)
-	{
-		if (a_b == 'a')
-			ra(stacks);
-		else
-			rb(stacks);
-	}
-	if ((val1 > val2 && val2 < val3) || (val1 > val2 && val2 > val3))
+	if (el1 < el2 && el2 > el3)
 	{
 		if (a_b == 'a')
 			rra(stacks);
 		else
 			rrb(stacks);
 	}
-	if ((val1 < val2 && val2 > val3)
-		|| (val1 > val2 && val2 < val3 && val3 > val2)
-			|| (val3 > val2 && val2 > val1))
+	if ((el1 > el2 && el2 > el3) || (el1 > el2 && el2 < el3 && el3 < el1))
+	{
+		if (a_b == 'a')
+			ra(stacks);
+		else
+			rb(stacks);
+	}
+	if ((el1 < el2 && el2 > el3 && el3 > el1) || (el1 > el2 && el2 > el3)
+			|| (el1 > el2 && el2 < el3 && el3 > el1))
 	{
 		if (a_b == 'a')
 			sa(stacks);
@@ -95,6 +94,7 @@ void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks)
 			sb(stacks);
 	}
 }
+
 // This should probably return the oplist.
 void	quicksort(t_stacks *stacks, t_oplist *oplist, t_opcount *opcount)
 {
