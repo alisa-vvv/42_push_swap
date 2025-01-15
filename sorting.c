@@ -1,7 +1,13 @@
 #include "push_swap.h"
 
-t_intlist	*choose_pivot(t_intlist *cur_node, int len)
+t_intlist	*choose_pivot(t_stacks *stacks, e_op_stack op_stack)
 {
+	t_intlist	*cur_node;
+
+	if (op_stack == stack_a)
+		cur_node = stacks->a;
+	else
+		cur_node = stacks->b;
 //	int	values[3];
 //	int	comp;
 //
@@ -10,8 +16,6 @@ t_intlist	*choose_pivot(t_intlist *cur_node, int len)
 //	len = len / 2;
 //	while (len--)
 //		cur_node = cur_node->next;
-	len = 0; // REMOVE THIS THIS IS FOR COMPILER TO NOT CRY
-	return (cur_node);
 //	el3 = cur_node->element;
 //	while (el3 < comp)
 //	{
@@ -119,17 +123,21 @@ void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks) {
 	}
 }
 
+int		parse_stack(t_stacks *stacks, e_op_name op, e_op_stack op_stack)
+{
+	const *t_intlist	pivot = choose_pivot(stacks, e_op_stack);
+
+}
+
 void	quicksort(t_stacks *stacks)
 {
 	t_intlist	*pivot;
-	t_intlist	*low_val;
-	t_intlist	*high_val;
+	t_intlist	*cur_node;
 	int			cur_len;
 
-	pivot = choose_pivot(stacks->a, stacks->len_a);
 	cur_len = stacks->len_a;
 	pb(stacks); // this should go to list first
 	ft_printf("pivot: %d\n", pivot->element);
-	low_val = qs_comp(stacks->a, stacks->a->prev, CLOCKWISE, pivot->element);
-	high_val = qs_comp(stacks->a->prev, stacks->a, CR_CLOCKWISE, pivot->element);
+	while (cur_node->element > pivot->element)
+		
 }

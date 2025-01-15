@@ -6,62 +6,63 @@ void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
 		f(stacks);
 }
 
-//void	do_op(t_stacks *stacks, e_ops op, e_op_stack stack, int n)
-//{
-//	if (op == swap)
-//	{
-//		if (stack == a)
-//			do_n_times(stacks, sa, n);
-//		else if (stack == b)
-//			do_n_times(stacks, sb, n);
-//		else
-//			do_n_times(stacks, ss, n);
-//	}
-//	if (op == push)
-//	{
-//		if (stack == a)
-//			do_n_times(stacks, pa, n);
-//		else
-//			do_n_times(stacks, pb, n);
-//	}
-//	if (op == rotate)
-//	{
-//		if (stack == a)
-//			do_n_times(stacks, ra, n);
-//		else if (stack == b)
-//			do_n_times(stacks, rb, n);
-//		else
-//			do_n_times(stacks, rr, n);
-//	}
-//	if (op == r_rotate)
-//	{
-//		if (stack == a)
-//			do_n_times(stacks, rra, n);
-//		else if (stack == b)
-//			do_n_times(stacks, rrb, n);
-//		else
-//			do_n_times(stacks, rrr, n);
-//	}
-//}
-//
-t_opcount	*set_opcount(void)
+void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 {
-	t_opcount *opcount;
-
-	opcount = (t_opcount *) malloc(sizeof (t_opcount));
-	opcount->sa_count = 0;
-	opcount->sb_count = 0;
-	opcount->ss_count = 0;
-	opcount->pa_count = 0;
-	opcount->pb_count = 0;
-	opcount->ra_count = 0;
-	opcount->rb_count = 0;
-	opcount->rr_count = 0;
-	opcount->rra_count = 0;
-	opcount->rrb_count = 0;
-	opcount->rrr_count = 0;
-	return(opcount);
+	if (op == op_swap)
+	{
+		if (stack == stack_a)
+			do_n_times(stacks, sa, n);
+		else if (stack == stack_b)
+			do_n_times(stacks, sb, n);
+		else
+			do_n_times(stacks, ss, n);
+	}
+	if (op == op_push)
+	{
+		if (stack == stack_a)
+			do_n_times(stacks, pa, n);
+		else
+			do_n_times(stacks, pb, n);
+	}
+	if (op == op_rot)
+	{
+		if (stack == stack_a)
+			do_n_times(stacks, ra, n);
+		else if (stack == stack_b)
+			do_n_times(stacks, rb, n);
+		else
+			do_n_times(stacks, rr, n);
+	}
+	if (op == r_rotate)
+	{
+		if (stack == stack_a)
+			do_n_times(stacks, rra, n);
+		else if (stack == stack_b)
+			do_n_times(stacks, rrb, n);
+		else
+			do_n_times(stacks, rrr, n);
+	}
 }
+
+//t_opcount	*set_opcount(void)
+//{
+//	t_opcount *opcount;
+//
+//	opcount = (t_opcount *) malloc(sizeof (t_opcount));
+//	opcount->sa_count = 0;
+//	opcount->sb_count = 0;
+//	opcount->ss_count = 0;
+//	opcount->pa_count = 0;
+//	opcount->pb_count = 0;
+//	opcount->ra_count = 0;
+//	opcount->rb_count = 0;
+//	opcount->rr_count = 0;
+//	opcount->rra_count = 0;
+//	opcount->rrb_count = 0;
+//	opcount->rrr_count = 0;
+//	return(opcount);
+//}
+
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;

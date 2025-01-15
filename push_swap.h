@@ -38,6 +38,21 @@ typedef enum	rot_dir
 	CR_CLOCKWISE,
 }	e_rot_dir;
 
+typedef enum	op_stack
+{
+	stack_a,
+	stack_b,
+	both,
+}	e_op_stack;
+
+typedef enum	op_name
+{
+		op_swap,
+		op_push,
+		op_rot,
+		op_rrot,
+}		e_op_name;
+
 typedef void	(*operation)(t_stacks *stacks);
 
 typedef struct	s_opcount
