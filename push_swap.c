@@ -33,7 +33,7 @@ void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 		else
 			do_n_times(stacks, rr, n);
 	}
-	if (op == r_rotate)
+	if (op == op_rrot)
 	{
 		if (stack == stack_a)
 			do_n_times(stacks, rra, n);
@@ -66,7 +66,6 @@ void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
-	t_opcount	*opcount;
 
 	if (argc == 1 || argc == 2)	
 		exit (0);
@@ -74,7 +73,6 @@ int	main(int argc, char **argv)
 	if (!stacks)
 		free_exit(stacks, 1);
 	fill_stack(stacks, argc - 1, &argv[1]);
-	opcount = set_opcount();
 //	print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
 	//do_n_times(stacks, pb, 2);
@@ -94,7 +92,8 @@ int	main(int argc, char **argv)
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
 	quicksort(stacks);
 //	sort_three('a', stacks->a, stacks);
-//	print_stack(stacks->a, stacks->len_a, 'a', 1);
+	print_stack(stacks->a, stacks->len_a, 'a', 1);
+	print_stack(stacks->b, stacks->len_b, 'b', 1);
 	free_exit(stacks, 0);
 	return (0);
 }

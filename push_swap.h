@@ -75,7 +75,7 @@ t_intlist	*add_node(int init_val);
 void		free_node(t_intlist *node, int *len);
 /* t_intlist wrappers */
 void	swap_nodes(t_intlist *node1, t_intlist *node2);
-t_intlist 	*get_element_n(t_intlist *node, int n);
+t_intlist 	*get_element_n(t_stacks *stacks, e_op_stack stack, int n);
 
 /* t_stacks allocation and clearing */
 t_stacks	*allocate_stacks(int count);
@@ -86,7 +86,8 @@ void		free_exit(t_stacks *stacks, int error_check);
 void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks);
 void	quicksort(t_stacks *stacks);
 
-/* swap actions */
+/* operations */
+void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n);
 void	sa(t_stacks *stacks);
 void	sb(t_stacks *stacks);
 void	ss(t_stacks *stacks);

@@ -12,8 +12,14 @@
 
 #include "../push_swap.h"
 
-t_intlist *get_element_n(t_intlist *node, int n)
+t_intlist 	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
 {
+	t_intlist	*node;
+
+	if (stack == stack_a)
+		node = stacks->a;
+	else if (stack == stack_b)
+		node = stacks->b;
 	while(--n)
 		node = node->next;
 	return (node);
