@@ -1,90 +1,111 @@
-#include "push_swap.h"
+#include "../push_swap.h"
 
-int	choose_pivot(t_stacks *stacks, e_op_stack op_stack)
+int	choose_pivot(t_stacks *stacks, e_op_stack op_stack, t_intlist *last_el)
 {
 	t_intlist	*cur_node;
-	const int	val1 = stacks->a->element;
-	const int	val2 = stacks->a->prev->element;
-	int			val3;
-	int			len;
-
+	t_intlist	*DELETE_THIS = last_el;
+//	int			val1;
+//	int			val2;
+//	int			val3;
+//	int			len;
+//
 	if (op_stack == stack_a)
 	{
-		len = stacks->len_a / 2;
 		cur_node = stacks->a;
+//		val1 = stacks->a->element;
+//		val2 = last_el->element;
 	}
 	else
 	{
-		len = stacks->len_b / 2;
 		cur_node = stacks->b;
+//		val1 = stacks->b->element;
+//		val2 = last_el->element;
 	}
-	while (len--)
-		cur_node = cur_node->next;
-	val3 = cur_node->element;
-	if ((val1 < val2 && val1 > val3) || (val1 > val2 && val1 < val3))
-		return (val1);
-	if ((val2 < val1 && val2 > val3) || (val2 > val1 && val2 < val3))
-		return (val2);
-	return (val3);
+	DELETE_THIS = NULL;
+//	if (last_el->next == cur_node)
+//	len = 0;
+//	while (cur_node != last_el)
+//	{
+//		cur_node = cur_node->next;
+//		len++;
+//	}
+//	len /= 2;
+//	while (len--)
+//		cur_node = cur_node->next;
+//	val3 = cur_node->element;
+//	if ((val1 < val2 && val1 > val3) || (val1 > val2 && val1 < val3))
+//		return (val1);
+//	if ((val2 < val1 && val2 > val3) || (val2 > val1 && val2 < val3))
+//		return (val2);
+//	return (val3);
+	return (cur_node->element);
 }
 
-void	sort_three(char a_b, t_intlist *sorted_stack, t_stacks *stacks)
+t_intlist	*div_a(t_stacks *stacks, t_intlist *first_sorted, t_intlist *last)
 {
-	const int el1 = sorted_stack->element;
-	const int el2 = sorted_stack->next->element;
-	const int el3 = sorted_stack->prev->element;
-	
-	if (el1 < el2 && el2 < el3)
-		return ;
-	if (el1 < el2 && el2 > el3)
-	{
-		if (a_b == 'a')
-			rra(stacks);
-		else
-			rrb(stacks);
-	}
-	if ((el1 > el2 && el2 > el3) || (el1 > el2 && el2 < el3 && el3 < el1))
-	{
-		if (a_b == 'a')
-			ra(stacks);
-		else
-			rb(stacks);
-	}
-	if ((el1 < el2 && el2 > el3 && el3 > el1) || (el1 > el2 && el2 > el3)
-			|| (el1 > el2 && el2 < el3 && el3 > el1))
-	{
-		if (a_b == 'a')
-			sa(stacks);
-		else
-			sb(stacks);
-	}
-}
-
-void		div_a(t_stacks *stacks, t_intlist *first_sorted)
-{
-	const int	pivot = choose_pivot(stacks, stack_a);
+	const int	pivot = choose_pivot(stacks, stack_a, last);
 	int			count;
 
 	count = stacks->len_a;
 	while (stacks->a != first_sorted && count--)
 	{
-		if (stacks->a->element < pivot)
+		if (stacks->a->element <= pivot)
 			do_op(stacks, op_push, stack_b, 1);
 		do_op(stacks, op_rot, stack_a, 1);
 	}
 	if (stacks->len_a <= 3)
-		ft_printf("this should call a function that sorts arrays of less than 3\n");
+	{
+		sort_small_stack(stacks, stack_a, stacks->len_a);
+		first_sorted = stacks->a;
+	}
+	return (first_sorted);
 }
 
-void	quicksort(t_stacks *stacks)
+t_intlist	*div_b(t_stacks *stacks, t_intlist *first_sorted, t_intlist *last)
 {
-	t_intlist	*first_sorted_a;
-	t_intlist	*first_sorted_b;
+	const int	pivot = choose_pivot(stacks, stack_b, last);
+	int			count;
 
-	first_sorted_a = NULL;
-	first_sorted_b = NULL;
-	while (stacks->len_a > 3)
-		div_a(stacks, first_sorted_a);
+	count = stacks->len_b;
+	while (stacks->b != first_sorted && count--)
+	{
+		if (stacks->b->element >= pivot)
+			do_op(stacks, op_push, stack_a, 1);
+		do_op(stacks, op_rot, stack_b, 1);
+	}
+	if (stacks->len_b <= 3)
+	{
+		sort_small_stack(stacks, stack_b, stacks->len_b);
+		first_sorted = stacks->b;
+	}
+	return (first_sorted);
+}
+
+void	quicksort(t_stacks *stacks, t_intlist *sorted_a, t_intlist *sorted_b)
+{
+	t_intlist	*last_el_a;
+	t_intlist	*last_el_b;
+	int			test_val = 1;
+
+	while (test_val--)
+	{
+		if (!sorted_a)
+			last_el_a = stacks->a->prev;
+		else
+		{
+			last_el_a = sorted_a->prev;
+		}
+		while (stacks->len_a > 3)
+			sorted_a = div_a(stacks, sorted_a, last_el_a);
+		if (!sorted_b && stacks->b)
+			last_el_b = stacks->b->prev;
+		else
+			last_el_b = sorted_b->prev;
+		while (stacks->len_b > 3)
+			sorted_b = div_b(stacks, sorted_b, last_el_a);
+	}
+	ft_printf("sorted_a = %d\n", sorted_a->element);
+	ft_printf("last_el_a = %d\n", last_el_a->element);
 }
 
 //void	qs_a_swap(t_intlist *low, t_intlist *high, t_stacks *stacks, t_intlist *pivot)
