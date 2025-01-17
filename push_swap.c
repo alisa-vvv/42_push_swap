@@ -90,9 +90,9 @@ int	main(int argc, char **argv)
 	//rrr(stacks);
 	//print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//print_stack(stacks->b, stacks->len_b, 'b', 1);
-	if (argc <= 4)
-		sort_small_stack(stacks, stack_a, stacks->len_a);
-	else
+//	if (argc <= 4)
+//		sort_small_stack(stacks, stack_a, stacks->len_a);
+//	else
 		quicksort(stacks);
 //	print_stack(stacks->b, stacks->len_b, 'b', 1);
 //	print_stack(stacks->a, stacks->len_a, 'a', 1);
