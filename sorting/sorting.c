@@ -1,112 +1,151 @@
 #include "../push_swap.h"
 
-int	choose_pivot(t_stacks *stacks, e_op_stack op_stack, t_intlist *last_el)
+//int	count_unsorted(t_intlist *cur_node, int total_len)
+//{
+//	int	count;
+//
+//	count = 0;
+//	while (total_len--)
+//	{
+//		if (cur_node->sorted == no)
+//			count++;
+//		cur_node = cur_node->next;
+//	}
+//	return (count);
+//}
+
+int	choose_pivot(t_intlist *top_node, int len, int mid_pos, int *median_arr)
 {
 	t_intlist	*cur_node;
-	int			min;
-	int			max;
+	int			first_small;
+	int 		last_big;
+	int			chosen_el;
+	int			el_count;
 
-	if (op_stack == stack_a)
-		cur_node = stacks->a;
-	if (op_stack == stack_b)
-		cur_node = stacks->b;
-	max = cur_node->element;
+	ft_printf("mid_pos: %d\n", mid_pos);
+	ft_printf("len: %d\n", len);
+	cur_node = top_node;
+	el_count = len;
+	chosen_el = cur_node->element;
 	cur_node = cur_node->next;
-	while (cur_node != last_el->next)
+	first_small = len;
+	last_big = 0;
+	while (el_count-- && cur_node->sorted == no)
 	{
-		if (cur_node->element > max)
-			max = cur_node->element;
+		if (cur_node->element < chosen_el)
+			median_arr[--first_small] = cur_node->element;
+		else
+			median_arr[++last_big] = cur_node->element;
 		cur_node = cur_node->next;
 	}
-	min = cur_node->element;
-	cur_node = cur_node->next;
-	while (cur_node != last_el->next)
-	{
-		if (cur_node->element < min)
-			min = cur_node->element;
-		cur_node = cur_node->next;
-	}
-	return (min + (max - min) / 2);
+	ft_printf("first_small %d\n", first_small);
+	if (len - first_small != mid_pos)
+		return (choose_pivot(top_node->next, len, mid_pos, median_arr));
+	return (chosen_el);
 }
 
-t_intlist	*div_a(t_stacks *stacks, t_intlist *first_sorted, t_intlist *last)
+void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 {
-	const int	pivot = choose_pivot(stacks, stack_a, last);
 	int			count;
 
-	ft_printf("median a: %d\n", pivot);
-	count = stacks->len_a;
-	while (stacks->a != first_sorted && count--)
+	count = stacks->len_a - *sorted_count;
+	if (rot_dir == obverse)
 	{
-		ft_printf("count: %d\n", count);
-		if (stacks->a->element <= pivot)
-			do_op(stacks, op_push, stack_b, 1);
-		do_op(stacks, op_rot, stack_a, 1);
+		while (count--)
+		{
+			if (stacks->a->sorted == yes)
+			{
+				do_op(stacks, op_rrot, stack_a, 1);
+				div_a(stacks, reverse, sorted_count, pivot);
+			}
+			if (stacks->a->element <= pivot)
+				do_op(stacks, op_push, stack_b, 1);
+			do_op(stacks, op_rot, stack_a, 1);
+		}
 	}
-	if (stacks->len_a <= 3)
+	if (rot_dir == reverse)
 	{
-		sort_small_stack(stacks, stack_a, stacks->len_a);
-		first_sorted = stacks->a;
+		while (count--)
+		{
+			if (stacks->a->sorted == yes)
+			{
+				do_op(stacks, op_rot, stack_a, 1);
+				div_a(stacks, obverse, sorted_count, pivot);
+			}
+			if (stacks->a->element <= pivot)
+				do_op(stacks, op_push, stack_b, 1);
+			do_op(stacks, op_rrot, stack_a, 1);
+		}
 	}
-	if (first_sorted)
-		ft_printf("first_sorted = %d\n", first_sorted->element);
-	return (first_sorted);
+	stacks->a->sorted = yes;
+	(*sorted_count) += stacks->len_a;
 }
 
-t_intlist	*div_b(t_stacks *stacks, t_intlist *first_sorted, t_intlist *last)
+//t_intlist	*div_b(t_stacks *stacks, t_intlist *first_sorted, t_intlist *last, int *sorted_count)
+//{
+//	const int	pivot = choose_pivot(stacks, stack_b, last);
+//	int			count;
+//
+//	ft_printf("median b: %d\n", pivot);
+//	count = stacks->len_b;
+//	while (stacks->len_b < sorted_c && count--)
+//	{
+//		if (stacks->b == first_sorted);
+//			break ;
+//		if (stacks->b->element >= pivot)
+//			do_op(stacks, op_push, stack_a, 1);
+//		do_op(stacks, op_rot, stack_b, 1);
+//	}
+//	while (stacks->len_b < sorted_c && count--)
+//	{
+//		if (stacks->b == first_sorted);
+//			break ;
+//		if (stacks->b->element >= pivot)
+//			do_op(stacks, op_push, stack_a, 1);
+//		do_op(stacks, op_rrot, stack_b, 1);
+//	}
+//	if (stacks->len_b <= 3)
+//	{
+//		sort_small_stack(stacks, stack_b, stacks->len_b);
+//		first_sorted = stacks->b;
+//	}
+//	(*sorted_count) += stacks->len_b;
+//	return (first_sorted);
+//}
+//
+
+void	quicksort(t_stacks *stacks)
 {
-	const int	pivot = choose_pivot(stacks, stack_b, last);
-	int			count;
-
-	ft_printf("median b: %d\n", pivot);
-	count = stacks->len_b;
-	while (stacks->b != first_sorted && count--)
-	{
-		if (stacks->b->element >= pivot)
-			do_op(stacks, op_push, stack_a, 1);
-		do_op(stacks, op_rot, stack_b, 1);
-	}
-	if (stacks->len_b <= 3)
-	{
-		sort_small_stack(stacks, stack_b, stacks->len_b);
-		first_sorted = stacks->b;
-	}
-	return (first_sorted);
-}
-
-// 1) Write the algorithm for sorting tree values at the top of a stack that's bigger than 3 values;
-// 2) Keep track of the start separately from current rotation of array (do I need that?)
-// 3) Eh? 
-
-void	quicksort(t_stacks *stacks, t_intlist *sorted_a, t_intlist *sorted_b)
-{
-	t_intlist	*last_el_a;
-	t_intlist	*last_el_b;
-	int			test = 3;
+	int	sorted_count_a;
+	int	sorted_count_b;
+	int	pivot;
+	int	*median_array;
+	int	test = 1;
 
 	ft_printf("START\n");
+	sorted_count_a = 0;
+	sorted_count_b = 0;
+	median_array = (int *) malloc((stacks->len_a) * sizeof(int));
 	while (test--)
 	{
-		while (stacks->len_a > 3)
-		{
-			if (!sorted_a)
-				last_el_a = stacks->a->prev;
-			else
-				last_el_a = sorted_a->prev;
-			ft_printf("last_el_a = %d\n", last_el_a->element);
-			ft_printf("first_el_a = %d\n", stacks->a->element);
-			sorted_a = div_a(stacks, sorted_a, last_el_a);
-			print_stack(stacks->a, stacks->len_a, 'a', 1);
-		}
-		while (stacks->len_b > 3)
-		{
-			if (!sorted_b && stacks->b)
-				last_el_b = stacks->b->prev;
-			else
-				last_el_b = sorted_b->prev;
-			sorted_b = div_b(stacks, sorted_b, last_el_a);
-		}
+			pivot = choose_pivot(stacks->a, stacks->len_a, (stacks->len_a - sorted_count_a) / 2, median_array);
+	//	while (sorted_count_a != stacks->len_a)
+	//	{
+	//		pivot = choose_pivot(stacks->a, stacks->len_a, (stacks->len_a - sorted_count_a) / 2, median_array);
+	////		div_a(stacks, obverse, &sorted_count_a, pivot);
+	//	}
+			ft_printf("pivot: %d\n", pivot);
+//		print_stack(stacks->a, stacks->len_a, 'a', 1);
+//		while (sorted_b != stacks->b)
+//		{
+//			if (!sorted_b && stacks->b)
+//				last_el_b = stacks->b->prev;
+//			else
+//				last_el_b = sorted_b->prev;
+//			sorted_b = div_b(stacks, sorted_b, last_el_a, &sorted_count_a);
+//		}
 	}
+	free(median_array);
 }
 //	print_stack(stacks->b, stacks->len_b, 'b', 1);
 //	print_stack(stacks->a, stacks->len_a, 'a', 1);

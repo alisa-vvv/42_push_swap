@@ -17,11 +17,18 @@
 # include <unistd.h>
 # include "libft_printf/ft_printf.h"
 
+typedef enum	sorted
+{
+	yes,
+	no,
+}				e_sorted;
+
 typedef struct	s_intlist
 {
-	int		element;
-	struct s_intlist		*prev;
-	struct s_intlist		*next;
+	int					element;
+	e_sorted			sorted;
+	struct s_intlist	*prev;
+	struct s_intlist	*next;
 }			t_intlist;
 
 typedef struct	s_stacks
@@ -34,8 +41,8 @@ typedef struct	s_stacks
 
 typedef enum	rot_dir
 {
-	CLOCKWISE,
-	CR_CLOCKWISE,
+	obverse,
+	reverse,
 }	e_rot_dir;
 
 typedef enum	op_stack
@@ -85,7 +92,7 @@ void		free_exit(t_stacks *stacks, int error_check);
 /* sorting */
 void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len);
 void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b);
-void	quicksort(t_stacks *stacks, t_intlist *sorted_a, t_intlist *sorted_b);
+void	quicksort(t_stacks *stacks);
 
 /* operations */
 void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n);
