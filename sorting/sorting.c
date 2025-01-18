@@ -63,6 +63,16 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
 	}
 }
 
+// rewrite this:
+// first, populate the string with all elements
+// second, select a random element as pivot (pick one of two (check the logic on this))
+// check all other elements, smaller ones go to the left of random element, bigger go to the right
+// MEDIAN is len of array / 2
+// if pivot is at position MEDIAN in the array: success!
+// if pivot is at position left of MEDIAN: the true median is in the right subarray
+// 		call the function again with only the right array as the array
+// if pivot is at position right of MEDIAN: the true median is in the left subarray
+// 		call the function again with only the left array as the array
 int	find_median(t_intlist *top_node, int len, int mid_pos, int *median_arr)
 {
 	t_intlist	*cur_node;
