@@ -43,6 +43,8 @@ NAME	= push_swap.a
 
 INPUT	= 1 3 2 9 6 8 10 5 7
 
+#INPUT	= 1 3 2 6 8 5 7
+
 #INPUT	= 1 3 2
 
 %.o: %.c

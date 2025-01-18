@@ -21,7 +21,7 @@ void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 	{
 		if (stack == stack_a)
 			do_n_times(stacks, pa, n);
-		else
+		else if (stack == stack_b)
 			do_n_times(stacks, pb, n);
 	}
 	if (op == op_rot)

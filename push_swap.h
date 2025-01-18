@@ -47,9 +47,9 @@ typedef enum	rot_dir
 
 typedef enum	op_stack
 {
-	stack_a,
-	stack_b,
-	both,
+	stack_a = 1,
+	stack_b = -1,
+	both = 0,
 }	e_op_stack;
 
 typedef enum	op_name

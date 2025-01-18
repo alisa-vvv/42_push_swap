@@ -14,7 +14,56 @@
 //	return (count);
 //}
 
-int	choose_pivot(t_intlist *top_node, int len, int mid_pos, int *median_arr)
+void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
+{
+	t_intlist	*cur_node;
+	const int	orig_count = count;
+
+	if (stack == stack_a)
+		cur_node = stacks->a;
+	if (stack == stack_b)
+		cur_node = stacks->b;
+	if (count == 1)
+	{
+		cur_node->sorted = yes;
+		return ;
+	}
+	if (stack == stack_a)
+	{
+		while (count--)
+		{
+			if (cur_node->element < med)
+			{
+				do_op(stacks, op_push, -stack, 1);
+				break ;
+			}
+			do_op(stacks, op_rot, stack, 1);
+		}
+	}
+	else if (stack == stack_b)
+	{
+		while (count--)
+		{
+			if (cur_node->element > med)
+			{
+				do_op(stacks, op_push, -stack, 1);
+				break ;
+			}
+			do_op(stacks, op_rot, stack, 1);
+		}
+	}
+	while (count++ < orig_count - 1)
+		do_op(stacks, op_rrot, stack, 1);
+	if (cur_node->element > cur_node->next->element)
+		do_op(stacks, op_swap, stack, 1);
+	while (--count != 1)
+	{
+		cur_node->sorted = yes;
+		cur_node = cur_node->next;
+	}
+}
+
+int	find_median(t_intlist *top_node, int len, int mid_pos, int *median_arr)
 {
 	t_intlist	*cur_node;
 	int			first_small;
@@ -28,16 +77,22 @@ int	choose_pivot(t_intlist *top_node, int len, int mid_pos, int *median_arr)
 	cur_node = cur_node->next;
 	first_small = len;
 	last_big = -1;
+	ft_printf("mid_pos: %d\n", mid_pos);
+	ft_printf("el_count: %d\n", el_count);
 	while (el_count-- && cur_node->sorted == no)
 	{
 		if (cur_node->element < chosen_el)
 			median_arr[--first_small] = cur_node->element;
-		else
+		else if (cur_node->element > chosen_el)
 			median_arr[++last_big] = cur_node->element;
 		cur_node = cur_node->next;
 	}
+	ft_printf("chosen_el: %d\n", chosen_el);
+	ft_printf("len - first_small + 1: %d\n", len - first_small + 1);
+	ft_printf("first_small: %d\n", median_arr[first_small]);
+	ft_printf("first_small: %d\n", first_small);
 	if (len - first_small + 1 != mid_pos)
-		return (choose_pivot(top_node->next, len, mid_pos, median_arr));
+		return (find_median(top_node->next, len, mid_pos, median_arr));
 	return (chosen_el);
 }
 
@@ -46,15 +101,14 @@ void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 	int			count;
 
 	count = stacks->len_a - *sorted_count;
-	if (count == 1)
+	if (count <= 3)
 	{
-		stacks->a->sorted = yes;
-		(*sorted_count)++;
+		sort_last_div(stacks, stack_a, count, pivot);
 		return ;
 	}
 	if (rot_dir == obverse)
 	{
-		while (count--)
+		while (count-- > 2)
 		{
 			if (stacks->a->sorted == yes)
 			{
@@ -69,7 +123,7 @@ void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 	}
 	if (rot_dir == reverse && stacks->a->sorted == no)
 	{
-		while (count--)
+		while (count-- > 2)
 		{
 			if (stacks->a->element <= pivot)
 				do_op(stacks, op_push, stack_b, 1);
@@ -78,11 +132,6 @@ void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 			do_op(stacks, op_rrot, stack_a, 1);
 		}
 	}
-//	if (stacks->len_a - (*sorted_count) <= 1)
-//	{
-//		stacks->a->sorted = yes;
-//		(*sorted_count) += stacks->len_a;
-//	}
 }
 
 void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
@@ -90,16 +139,14 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 	int			count;
 
 	count = stacks->len_b - *sorted_count;
-	if (count == 1)
+	if (count <= 3)
 	{
-		ft_printf("where seg\n");
-		stacks->b->sorted = yes;
-		(*sorted_count)++;
+		sort_last_div(stacks, stack_b, count, pivot);
 		return ;
 	}
 	if (rot_dir == obverse)
 	{
-		while (--count)
+		while (count-- > 2)
 		{
 			if (stacks->b->sorted == yes)
 			{
@@ -107,14 +154,14 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 				rot_dir = reverse;
 				break ;
 			}
-			if (stacks->a->element >= pivot)
+			if (stacks->b->element >= pivot)
 				do_op(stacks, op_push, stack_a, 1);
 			do_op(stacks, op_rot, stack_b, 1);
 		}
 	}
 	if (rot_dir == reverse && stacks->b->sorted == no)
 	{
-		while (--count)
+		while (count-- > 2)
 		{
 			if (stacks->b->element >= pivot)
 				do_op(stacks, op_push, stack_a, 1);
@@ -123,13 +170,7 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 			do_op(stacks, op_rrot, stack_b, 1);
 		}
 	}
-//	if (stacks->len_b - (*sorted_count) == 1)
-//	{
-//		stacks->b->sorted = yes;
-//		(*sorted_count) += stacks->len_b;
-//	}
 }
-
 
 void	quicksort(t_stacks *stacks)
 {
@@ -143,26 +184,34 @@ void	quicksort(t_stacks *stacks)
 	ft_printf("START\n");
 	sorted_a = 0;
 	sorted_b = 0;
-	//ft_printf("len: %d\n", stacks->len_a);
 	median_array = (int *) malloc((stacks->len_a) * sizeof(int));
 	while (test--)
 	{
 		is_odd = (stacks->len_a - sorted_a) % 2 != 0;
-		while (sorted_a != stacks->len_a)
+		while (stacks->len_a - sorted_a > 2)
 		{
-			pivot = choose_pivot(stacks->a, stacks->len_a, is_odd + (stacks->len_a - sorted_a) / 2, median_array);
+			pivot = find_median(stacks->a, stacks->len_a, is_odd + (stacks->len_a - sorted_a) / 2, median_array);
 			div_a(stacks, obverse, &sorted_a, pivot);
 		}
 		// comment for readability, b starts after this
 		is_odd = (stacks->len_b - sorted_b) %2 != 0;
-		while (sorted_b != stacks->len_b)
-		{
-			pivot = choose_pivot(stacks->b, stacks->len_b, is_odd + (stacks->len_b - sorted_b) / 2, median_array);
-			ft_printf("b pivot: %d\n", pivot);
-			div_b(stacks, obverse, &sorted_b, pivot);
-		}
-		print_stack(stacks->b, stacks->len_b, 'b', 1);
 		print_stack(stacks->a, stacks->len_a, 'a', 1);
+		print_stack(stacks->b, stacks->len_b, 'b', 1);
+		int testlen = stacks->len_b;
+		t_intlist *testnode = stacks->b;
+		while (testlen--)
+		{
+			ft_printf("testnode->el: %d\n", testnode->element);
+			ft_printf("testnode->sorted: %d\n", testnode->sorted);
+			testnode = testnode->next;
+		}
+	//	while (stacks->len_b - sorted_b > 2)
+	//	{
+	//		pivot = find_median(stacks->b, stacks->len_b, is_odd + (stacks->len_b - sorted_b) / 2, median_array);
+	//		div_b(stacks, obverse, &sorted_b, pivot);
+	//	}
+	//	print_stack(stacks->a, stacks->len_a, 'a', 1);
+	//	print_stack(stacks->b, stacks->len_b, 'b', 1);
 	}
 	free(median_array);
 }
