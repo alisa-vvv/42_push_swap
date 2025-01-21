@@ -39,6 +39,13 @@ typedef struct	s_stacks
 	int		len_b;
 }			t_stacks;
 
+typedef struct	s_med_arrs
+{
+	int	*elems;
+	int	*lows;
+	int	*highs;
+}		t_med_arrs;
+
 typedef enum	rot_dir
 {
 	obverse,
@@ -90,6 +97,9 @@ void		fill_stack(t_stacks *stacks, int count, char **numbers);
 void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
+t_med_arrs *free_med_arrs(t_med_arrs *med_arrs);
+t_med_arrs	*alloc_med_arrs(t_intlist *top_node, int count);
+int	find_median(t_med_arrs *arrs, const int len, const int med_pos);
 void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len);
 void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b);
 void	quicksort(t_stacks *stacks);
