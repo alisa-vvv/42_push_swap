@@ -73,6 +73,13 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
 // 		call the function again with only the right array as the array
 // if pivot is at position right of MEDIAN: the true median is in the left subarray
 // 		call the function again with only the left array as the array
+
+void	int_cpy(int *dest, int *src, size_t n)
+{
+	while (n--)
+		dest[n] = src[n];
+}
+
 int	find_median(int *arr, int *split_arr, const int len, const int med_pos)
 {
 	const int	pivot = arr[len / 2];
@@ -84,29 +91,42 @@ int	find_median(int *arr, int *split_arr, const int len, const int med_pos)
 	first_small = len;
 	last_big = -1;
 	i = 0;
+	int tmp_len = len;
+	while (tmp_len--)
+		ft_printf("el %d: %d, ", tmp_len, arr[tmp_len]);
+	ft_printf("\nmed_pos = %d\n", med_pos);
+	ft_printf("\nlen = %d\n", len);
+	ft_printf("pivot: %d\n", pivot);
 	while (i < len)
 	{
 		if (arr[i] < pivot)
 			split_arr[--first_small] = arr[i];
 		else if (arr[i] > pivot)
 			split_arr[++last_big] = arr[i];
+		i++;
 	}
-	pos = len - first_small + 1;
+	pos = first_small + 1;
+	ft_printf("pos: %d\n", pos);
+	while (tmp_len--)
+		ft_printf("el[split] %d: %d, ", tmp_len, split_arr[tmp_len]);
 	if (pos < med_pos)
 	{
-		arr[last_big + 1] = '\0';
-		ft_memcpy(*arr, &split_arr, last_big + 1);
-		find_median(arr, split_arr, last_big + 1, med_pos - pos);
+		ft_printf("less\n");
+		int_cpy(arr, split_arr, last_big + 1);
+		return (find_median(arr, split_arr, len - first_small, med_pos - pos));
 	}
 	else if (pos > med_pos)
 	{
-		arr[len] = '\0';
-		ft_memcpy(*arr, &(split_arr[first_small]), pos + 1);
-		find_median(arr, split_arr, last_big + 1, med_pos - (arr_len - pos + 1));
+		ft_printf("more\n");
+		int_cpy(arr, &(split_arr[first_small]), pos);
+		return (find_median(arr, split_arr, med_pos - pos, len - first_small));
 	}
-	return (med_pos);
+	return (split_arr[pos]);
 }
 
+//1 3 2 9 6 8 10 5 7
+//
+//1 3 2 5 6 9 8 10 7
 //int	find_median(t_intlist *top_node, int len, int mid_pos, int *median_arr)
 //{
 //	t_intlist	*cur_node;
@@ -220,7 +240,7 @@ void	put_partition_on_arr(int *arr, t_intlist *top_node, int count)
 {
 	while (count--)
 	{
-		arr[count] == top_node-<element;
+		arr[count] = top_node->element;
 		top_node = top_node->next;
 	}
 }
@@ -232,7 +252,7 @@ void	quicksort(t_stacks *stacks)
 	int	pivot; // this should ne put inside a and b things
 	int	*median_array;
 	int	*split_array;
-	int	test = 1;
+//	int	test = 1;
 
 	ft_printf("START\n");
 	sorted_a = 0;
@@ -240,7 +260,7 @@ void	quicksort(t_stacks *stacks)
 	median_array = (int *) malloc((stacks->len_a) * sizeof(int));
 	split_array = (int *) malloc((stacks->len_a) * sizeof(int));
 	put_partition_on_arr(median_array, stacks->a, stacks->len_a - sorted_a);
-	pivot = find_median(median_array, split_array, stack->len_a - sorted_a, (stack->len_a - sorted-a) / 2);
+	pivot = find_median(median_array, split_array, stacks->len_a - sorted_a, (stacks->len_a - sorted_a) / 2);
 	ft_printf("pivot = %d\n", pivot);
 //	while (test--)
 //	{
@@ -269,7 +289,7 @@ void	quicksort(t_stacks *stacks)
 	//	}
 	//	print_stack(stacks->a, stacks->len_a, 'a', 1);
 	//	print_stack(stacks->b, stacks->len_b, 'b', 1);
-	}
+	//}
 	free(median_array);
 	free(split_array);
 }
