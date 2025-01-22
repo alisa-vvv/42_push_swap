@@ -73,7 +73,7 @@ void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 {
 	int			count;
 
-	count = stacks->len_a;
+	count = stacks->len_a - *sorted_count;
 	sorted_count = NULL;
 	if (rot_dir == obverse)
 	{
@@ -110,7 +110,7 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 {
 	int			count;
 
-	count = stacks->len_b;
+	count = stacks->len_b - *sorted_count;
 	sorted_count = NULL;
 	if (rot_dir == obverse)
 	{
@@ -121,7 +121,7 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 				rot_dir = reverse;
 				break ;
 			}
-			if (stacks->b->element < pivot)
+			if (stacks->b->element > pivot)
 			{
 				do_op(stacks, op_push, stack_a, 1);
 		//		count--;
@@ -129,18 +129,18 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 			do_op(stacks, op_rot, stack_b, 1);
 			}
 	}
-	if (rot_dir == reverse)
-	{
-		do_op(stacks, op_rrot, stack_b, 1);
-		while (count--)
-		{
-			if (stacks->b->sorted == true)
-				break ;
-			if (stacks->b->element < pivot)
-				do_op(stacks, op_push, stack_a, 1);
-			do_op(stacks, op_rrot, stack_b, 1);
-		}
-	}
+	//if (rot_dir == reverse)
+	//{
+	//	do_op(stacks, op_rrot, stack_b, 1);
+	//	while (count--)
+	//	{
+	//		if (stacks->b->sorted == true)
+	//			break ;
+	//		if (stacks->b->element < pivot)
+	//			do_op(stacks, op_push, stack_a, 1);
+	//		do_op(stacks, op_rrot, stack_b, 1);
+	//	}
+	//}
 }
 
 //void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
