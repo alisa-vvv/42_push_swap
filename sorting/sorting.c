@@ -38,7 +38,6 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
 	}
 	if (count == 3)
 	{
-		ft_printf("sort them\n");
 	}
 }
 
