@@ -16,17 +16,12 @@
 # include <stddef.h>
 # include <unistd.h>
 # include "libft_printf/ft_printf.h"
-
-typedef enum	sorted
-{
-	yes,
-	no,
-}				e_sorted;
+# include <stdbool.h>
 
 typedef struct	s_intlist
 {
 	int					element;
-	e_sorted			sorted;
+	bool				sorted;
 	struct s_intlist	*prev;
 	struct s_intlist	*next;
 }			t_intlist;
@@ -97,6 +92,7 @@ void		fill_stack(t_stacks *stacks, int count, char **numbers);
 void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
+void	put_part_on_arr(t_med_arrs *med_arrs, t_intlist *top_node, int count);
 t_med_arrs *free_med_arrs(t_med_arrs *med_arrs);
 t_med_arrs	*alloc_med_arrs(t_intlist *top_node, int count);
 int	find_median(t_med_arrs *arrs, const int len, const int med_pos);
