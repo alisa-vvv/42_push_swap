@@ -14,12 +14,38 @@
 //	return (count);
 //}
 
-void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
+void	sort_last_three(t_stacks *stacks, e_op_stack stack, t_intlist *node)
+{
+	const int val1 = node->element;
+	const int val2 = node->next->element;
+	const int val3 = node->next->next->element;
+
+	if (val1 < val2 && val2 > val3)
+	{
+		do_op(stacks, op_rot, stack, 1);
+		do_op(stacks, op_swap, stack, 1);
+		do_op(stacks, op_rrot, stack, 1);
+		if (val3 < val1)
+			do_op(stacks, op_swap, stack, 1);
+	}
+	if ((val1 > val2 && val2 < val3 && val3 < val1)
+		|| (val1 > val2 && val2 > val3))
+	{
+		do_op(stacks, op_swap, stack, 1);
+		do_op(stacks, op_rot, stack, 1);
+		do_op(stacks, op_swap, stack, 1);
+		do_op(stacks, op_rrot, stack, 1);
+		if (val1 > val2 && val2 > val3)
+			do_op(stacks, op_swap, stack, 1);
+	}
+	if (val1 > val2 && val2 < val3 && val3 > val1)
+		do_op(stacks, op_swap, stack, 1);
+}
+
+void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 {
 	t_intlist	*cur_node;
-//	const int	orig_count = count;
 
-	ft_printf("med in sort last three: %d\n", med);
 	if (stack == stack_a)
 		cur_node = stacks->a;
 	if (stack == stack_b)
@@ -33,11 +59,13 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count, int med)
 	{
 		if (cur_node->element > cur_node->next->element)
 			do_op(stacks, op_swap, stack, 1);
-		cur_node->sorted = true;
-		cur_node->next->sorted = true;
 	}
 	if (count == 3)
+		sort_last_three(stacks, stack, cur_node);
+	while (count--)
 	{
+		cur_node->sorted = true;
+		cur_node = cur_node->next;
 	}
 }
 
@@ -57,22 +85,25 @@ void	div_a(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 				break ;
 			}
 			if (stacks->a->element < pivot)
+			{
 				do_op(stacks, op_push, stack_b, 1);
+		//		count--;
+			}
 			do_op(stacks, op_rot, stack_a, 1);
+			}
+	}
+	if (rot_dir == reverse)
+	{
+		do_op(stacks, op_rrot, stack_a, 1);
+		while (count--)
+		{
+			if (stacks->a->sorted == true)
+				break ;
+			if (stacks->a->element < pivot)
+				do_op(stacks, op_push, stack_b, 1);
+			do_op(stacks, op_rrot, stack_a, 1);
 		}
 	}
-//	if (rot_dir == reverse)
-//	{
-//		do_op(stacks, op_rrot, stack_a, 1);
-//		while (count--)
-//		{
-//			if (stacks->a->element < pivot)
-//				do_op(stacks, op_push, stack_b, 1);
-//			if (stacks->a->next->sorted == true)
-//				break ;
-//			do_op(stacks, op_rrot, stack_a, 1);
-//		}
-//	}
 }
 
 void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
@@ -80,33 +111,33 @@ void	div_b(t_stacks *stacks, e_rot_dir rot_dir, int *sorted_count, int pivot)
 	int			count;
 
 	count = stacks->len_b;
-	ft_printf("count b: %d\n", count);
 	sorted_count = NULL;
 	if (rot_dir == obverse)
 	{
 		while (count--)
 		{
-//			print_stack(stacks->a, stacks->len_a, 'a', 1);
-//			print_stack(stacks->b, stacks->len_b, 'b', 1);
 			if (stacks->b->sorted == true)
 			{
 				rot_dir = reverse;
 				break ;
 			}
-			if (stacks->b->element <= pivot)
+			if (stacks->b->element < pivot)
+			{
 				do_op(stacks, op_push, stack_a, 1);
+		//		count--;
+			}
 			do_op(stacks, op_rot, stack_b, 1);
-		}
+			}
 	}
 	if (rot_dir == reverse)
 	{
 		do_op(stacks, op_rrot, stack_b, 1);
 		while (count--)
 		{
-			if (stacks->b->element <= pivot)
-				do_op(stacks, op_push, stack_a, 1);
-			if (stacks->b->next->sorted == true)
+			if (stacks->b->sorted == true)
 				break ;
+			if (stacks->b->element < pivot)
+				do_op(stacks, op_push, stack_a, 1);
 			do_op(stacks, op_rrot, stack_b, 1);
 		}
 	}
@@ -163,37 +194,36 @@ void	quicksort(t_stacks *stacks)
 	sorted_b = 0;
 	is_odd = (stacks->len_a - sorted_a) % 2 != 0;
 	med_arrs = alloc_med_arrs(stacks->a, stacks->len_a);
-	int	test = 1;
-	while (test--)
+
+	//int test = 10;
+	//while (test--)
+	while (sorted_a != stacks->len_a || sorted_b != stacks->len_b)
 	{
-		is_odd = (stacks->len_a - sorted_a) % 2 != 0;
 		while (stacks->len_a - sorted_a > 3)
 		{
+			print_stack(stacks->a, stacks->len_a, 'a', 1);
+			is_odd = (stacks->len_a - sorted_a) % 2 != 0;
 			put_part_on_arr(med_arrs, stacks->a, stacks->len_a - sorted_a);
 			pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
-			ft_printf("pivot = %d\n", pivot);
+			ft_printf("pivot? %d\n", pivot);
 			div_a(stacks, obverse, &sorted_a, pivot);
 		}
 		print_stack(stacks->a, stacks->len_a, 'a', 1);
-		put_part_on_arr(med_arrs, stacks->a, stacks->len_a - sorted_a);
-		ft_printf("wtf why%d\n", is_odd + ((stacks->len_a - sorted_a) / 2));
-		pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
-		sort_last_div(stacks, stack_a, stacks->len_a - sorted_a, pivot);
+		sort_last_div(stacks, stack_a, stacks->len_a - sorted_a);
+		sorted_a += stacks->len_a - sorted_a;
 		print_stack(stacks->a, stacks->len_a, 'a', 1);
 		// comment for readability, b starts after this
-//		is_odd = (stacks->len_b - sorted_b) %2 != 0;
-//		while (stacks->len_b - sorted_b > 3)
-//		{
-//			//print_stack(stacks->b, stacks->len_b, 'b', 1);
-//			put_part_on_arr(med_arrs, stacks->b, stacks->len_b - sorted_b);
-//			pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
-//			ft_printf("pivot b = %d\n", pivot);
-//			div_b(stacks, obverse, &sorted_b, pivot);
-//		}
-//		pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
-//		sort_last_div(stacks, stack_b, stacks->len_b - sorted_b, pivot);
-//		print_stack(stacks->a, stacks->len_a, 'a', 1);
-//		print_stack(stacks->b, stacks->len_b, 'b', 1);
+		while (stacks->len_b - sorted_b > 3)
+		{
+			is_odd = (stacks->len_b - sorted_b) % 2 != 0;
+			put_part_on_arr(med_arrs, stacks->b, stacks->len_b - sorted_b);
+			pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
+			div_b(stacks, obverse, &sorted_b, pivot);
+		}
+		print_stack(stacks->b, stacks->len_b, 'b', 1);
+		sort_last_div(stacks, stack_b, stacks->len_b - sorted_b);
+		sorted_b += stacks->len_b - sorted_b;
+		print_stack(stacks->b, stacks->len_b, 'b', 1);
 //
 //		int testlen = stacks->len_a;
 //		t_intlist *testnode = stacks->a;
@@ -211,8 +241,8 @@ void	quicksort(t_stacks *stacks)
 //			ft_printf("testnode->sorted: %d\n", testnode->sorted);
 //			testnode = testnode->next;
 //		}
-	free_med_arrs(med_arrs);
 	}
+	free_med_arrs(med_arrs);
 }
 
 
