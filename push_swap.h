@@ -30,6 +30,8 @@ typedef struct	s_stacks
 {
 	t_intlist		*a;
 	t_intlist		*b;
+	//t_intlist		*sorted_top_a;
+	//t_intlist		*sorted_top_b;
 	int		len_a;
 	int		len_b;
 }			t_stacks;
@@ -43,8 +45,8 @@ typedef struct	s_med_arrs
 
 typedef enum	rot_dir
 {
-	obverse,
-	reverse,
+	obverse = 1,
+	reverse = 0,
 }	e_rot_dir;
 
 typedef enum	op_stack

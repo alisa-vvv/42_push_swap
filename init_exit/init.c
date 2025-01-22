@@ -107,6 +107,8 @@ t_stacks	*allocate_stacks(int count)
 		return (NULL);
 	stacks->a = NULL;
 	stacks->b = NULL;
+//	stacks->sorted_top_a = NULL;
+//	stacks->sorted_top_b = NULL;
 	stacks->len_a = count;
 	stacks->len_b = 0;
 	return (stacks);

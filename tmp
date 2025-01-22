@@ -1,0 +1,46 @@
+e_rot_dir   determine_rot_dir(t_intlist *target, t_intlist *top, int len)
+  1 {
+  2     t_intlist   *cur_node;
+  3     int     rot_count;
+  4
+  5     cur_node = top;
+  6     rot_count = 0;
+  7     while (cur_node != target)
+  8     {
+  9         if (rot_count * 2 > len)
+ 10             return (reverse);
+ 11         cur_node = cur_node->next;
+ 12         rot_count++;
+ 13     }
+ 14     return (obverse);
+ 15 }
+ 16
+ 17 void    rotate_to_target(t_stacks *stacks, e_op_stack stack, int len)
+ 18 {
+ 19     t_intlist   *cur_node;
+ 20     t_intlist   *target;
+ 21     e_rot_dir   dir;
+ 22
+ 23     if (stack == stack_a)
+ 24     {
+ 25         cur_node = stacks->a;
+ 26         target = stacks->sorted_top_a;
+ 27     }
+ 28     if (stack == stack_b)
+ 29     {
+ 30         cur_node = stacks->b;
+ 31         target = stacks->sorted_top_b;
+ 32     }
+ 33     dir = determine_rot_dir(target, cur_node, len);
+ 34     if (dir == obverse)
+ 35     {
+ 36         while (cur_node != target)
+ 37             do_op(stacks, op_rot, stack, 1);
+ 38     }
+ 39     else if (dir == reverse)
+ 40     {
+ 41         while (cur_node != target)
+ 42             do_op(stacks, op_rrot, stack, 1);
+ 43     }
+ 44 }
+ 
