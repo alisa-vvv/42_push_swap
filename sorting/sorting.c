@@ -1,15 +1,12 @@
 #include "../push_swap.h"
-// make a version for B to sort them in the opposite order
-e_rot_dir   determine_rot_dir(t_intlist *target, t_intlist *top, int len)
+
+e_rot_dir   determine_rot_dir(t_intlist *target, t_intlist *top)
 {
     t_intlist   *cur_node;
     int     	rot_count;
-    int     	rot_count2;
 
     cur_node = top;
     rot_count = 0;
-    rot_count2 = 0;
-	len--;
     while (cur_node != target)
     {
         cur_node = cur_node->next;
@@ -19,17 +16,15 @@ e_rot_dir   determine_rot_dir(t_intlist *target, t_intlist *top, int len)
 	while (cur_node!= target)
 	{
 		cur_node = cur_node->prev;
-		rot_count2++;
+		rot_count--;
 	}
-	if (rot_count > rot_count2)
-    	return (obverse);
-	if (rot_count < rot_count2)
-		return (reverse);
+	if (rot_count > 0)
+    	return (reverse);
 	else
-		return (reverse);
+		return (obverse);
 }
 
-void    rot_to(t_intlist *target, t_stacks *stacks, e_op_stack stack, int len)
+void    rot_to(t_intlist *target, t_stacks *stacks, e_op_stack stack)
 {
     t_intlist   *cur_node;
     e_rot_dir   dir;
@@ -40,7 +35,7 @@ void    rot_to(t_intlist *target, t_stacks *stacks, e_op_stack stack, int len)
 		cur_node = stacks->b;
 	if (cur_node == target)
 		return ;
-    dir = determine_rot_dir(target, cur_node, len);
+    dir = determine_rot_dir(target, cur_node);
     if (dir == obverse)
     {
         while (cur_node != target)
@@ -59,6 +54,7 @@ void    rot_to(t_intlist *target, t_stacks *stacks, e_op_stack stack, int len)
     }
 }
  
+// make a version for B to sort them in the opposite order
 void	sort_last_three(t_stacks *stacks, e_op_stack stack, t_intlist *node)
 {
 	const int val1 = node->element;
@@ -119,13 +115,13 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 	if (stack == stack_a)
 	{
 		if (stacks->sorted_bot_a)
-			rot_to(stacks->sorted_bot_a->next, stacks, stack, stacks->len_a);
+			rot_to(stacks->sorted_bot_a->next, stacks, stack);
 		cur_node = stacks->a;
 	}
 	if (stack == stack_b)
 	{
 		if (stacks->sorted_bot_b)
-			rot_to(stacks->sorted_bot_b->next, stacks, stack, stacks->len_b);
+			rot_to(stacks->sorted_bot_b->next, stacks, stack);
 		cur_node = stacks->b;
 	}
 	if (count == 2)
@@ -189,7 +185,7 @@ void	quicksort(t_stacks *stacks)
 		while (stacks->len_a - sorted_a > 3)
 		{
 			if (stacks->sorted_bot_a)
-				rot_to(stacks->sorted_bot_a->next, stacks, stack_a, stacks->len_a);
+				rot_to(stacks->sorted_bot_a->next, stacks, stack_a);
 			is_odd = (stacks->len_a - sorted_a) % 2 != 0;
 			put_part_on_arr(med_arrs, stacks->a, stacks->len_a - sorted_a);
 			pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
@@ -201,7 +197,7 @@ void	quicksort(t_stacks *stacks)
 		while (stacks->len_b - sorted_b > 3)
 		{
 			if (stacks->sorted_bot_b)
-				rot_to(stacks->sorted_bot_b->next, stacks, stack_b, stacks->len_b);
+				rot_to(stacks->sorted_bot_b->next, stacks, stack_b);
 			is_odd = (stacks->len_b - sorted_b) % 2 != 0;
 			put_part_on_arr(med_arrs, stacks->b, stacks->len_b - sorted_b);
 			pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
