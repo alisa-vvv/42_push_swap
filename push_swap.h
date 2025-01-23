@@ -30,8 +30,8 @@ typedef struct	s_stacks
 {
 	t_intlist		*a;
 	t_intlist		*b;
-	t_intlist		*sorted_bot_a;
 	t_intlist		*sorted_top_a;
+	t_intlist		*sorted_bot_a;
 	t_intlist		*sorted_top_b;
 	t_intlist		*sorted_bot_b;
 	int		len_a;
@@ -96,7 +96,7 @@ void		fill_stack(t_stacks *stacks, int count, char **numbers);
 void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
-void	put_part_on_arr(t_med_arrs *med_arrs, t_intlist *top_node, int count);
+void		put_part_on_arr(t_med_arrs *med_arrs, t_intlist *top_node, int count);
 t_med_arrs *free_med_arrs(t_med_arrs *med_arrs);
 t_med_arrs	*alloc_med_arrs(t_intlist *top_node, int count);
 int	find_median(t_med_arrs *arrs, const int len, const int med_pos);
