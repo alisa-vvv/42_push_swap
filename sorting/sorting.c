@@ -1,5 +1,4 @@
 #include "../push_swap.h"
-
 // make a version for B to sort them in the opposite order
 void	sort_last_three(t_stacks *stacks, e_op_stack stack, t_intlist *node)
 {
@@ -42,7 +41,6 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 	// this should also have the opposite rotation optimization
 	while (cur_node->sorted == true)
 	{
-		//ft_printf("count\n");
 		do_op(stacks, op_rrot, stack, 1);
 		cur_node = cur_node->prev;
 	}
@@ -54,9 +52,15 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 	else if (count == 3)
 		sort_last_three(stacks, stack, cur_node);
 	if (stack == stack_a)
+	{
 		cur_node = stacks->a;
+		stacks->sorted_top_a = cur_node;
+	}
 	if (stack == stack_b)
+	{
 		cur_node = stacks->b;
+		stacks->sorted_top_b = cur_node;
+	}
 	while (count--)
 	{
 		cur_node->sorted = true;

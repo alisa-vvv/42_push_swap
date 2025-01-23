@@ -30,8 +30,10 @@ typedef struct	s_stacks
 {
 	t_intlist		*a;
 	t_intlist		*b;
-	//t_intlist		*sorted_top_a;
-	//t_intlist		*sorted_top_b;
+	t_intlist		*sorted_bot_a;
+	t_intlist		*sorted_top_a;
+	t_intlist		*sorted_top_b;
+	t_intlist		*sorted_bot_b;
 	int		len_a;
 	int		len_b;
 }			t_stacks;
