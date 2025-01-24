@@ -104,7 +104,9 @@ test:	$(NAME)
 leak:	debug
 	valgrind -s --leak-check=full ./$(NAME) $(INPUT)
 
-clangd:	fclean ; $(shell intercept-build-14 make all)
+clangd:
+	$(MAKE) fclean
+	intercept-build-14 make all
 
 check:	$(NAME)
 	./$< $(INPUT) | ./checker_linux $(INPUT)
