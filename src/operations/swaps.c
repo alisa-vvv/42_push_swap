@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 static void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node)
 {

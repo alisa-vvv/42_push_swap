@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 void	int_cpy(int *dest, int *src, size_t n)
 {

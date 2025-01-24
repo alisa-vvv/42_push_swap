@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 t_intlist 	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
 {

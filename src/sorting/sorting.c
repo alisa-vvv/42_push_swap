@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 e_rot_dir   determine_rot_dir(t_intlist *target, t_intlist *top)
 {
@@ -226,7 +226,6 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 	update_sorted(stacks, stack, count);
 }
 
-// add the opposite rotation optimazation
 void	div_a(t_stacks *stacks, int *sorted_count, int pivot, e_rot_dir dir)
 {
 	int			count;
@@ -249,21 +248,18 @@ void	div_a(t_stacks *stacks, int *sorted_count, int pivot, e_rot_dir dir)
 	}
 }
 
-// add the opposite rotation optimazation
 void	div_b(t_stacks *stacks, int *sorted_count, int pivot, e_rot_dir dir)
 {
 	int			count;
 	e_op_name	op;
-//
+
 	if (dir == obverse)
 		op = op_rot;
 	else
 		op = op_rrot;
-	count = (stacks->len_b - *sorted_count) / 2 - 1;
+	count = (stacks->len_b - *sorted_count) / 2;
 	while (count)
 	{
-		if (stacks->b->sorted == true)
-			break ;
 		if (stacks->b->element > pivot)
 		{
 			do_op(stacks, op_push, stack_a, 1);
@@ -328,8 +324,8 @@ void	quicksort(t_stacks *stacks)
 		sort_last_div(stacks, stack_b, stacks->len_b - sorted_b);
 		sorted_b += stacks->len_b - sorted_b;
 	}
-	print_stack(stacks->a, stacks->len_a, 'a', 0);
-	print_stack(stacks->b, stacks->len_b, 'b', 0);
+//	print_stack(stacks->a, stacks->len_a, 'a', 0);
+//	print_stack(stacks->b, stacks->len_b, 'b', 0);
 	free_med_arrs(med_arrs);
 }
 

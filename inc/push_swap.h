@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 # include <unistd.h>
-# include "libft_printf/ft_printf.h"
+# include "ft_printf.h"
 # include <stdbool.h>
 
 typedef struct	s_intlist

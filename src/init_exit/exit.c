@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 //	delete the part that uses pointer to len, it's useless
 //	error_chek is 0 on success, 1 on fail

@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 t_intlist	*push(t_intlist *src, t_intlist *dst, int len_src, int len_dst)
 {
