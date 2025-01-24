@@ -54,6 +54,98 @@ void    rot_to(t_intlist *target, t_stacks *stacks, e_op_stack stack)
     }
 }
  
+t_intlist	*find_target_a(t_intlist *top_unsorted, int pivot)
+{
+	t_intlist *cur_node;
+
+	cur_node = top_unsorted;
+	while (cur_node->element <= pivot)
+		cur_node = cur_node->next;
+	return (cur_node);
+}
+
+e_rot_dir	shortest_path_a(t_intlist *orig_pos, int piv, int count)
+{
+	t_intlist	*cur_node;
+	int			rot_count;
+	int			el_count;
+
+	el_count = count;
+	cur_node = orig_pos;
+	rot_count = 0;
+	while (count)
+	{
+		if (cur_node->sorted == false && cur_node->element < piv)
+		{
+			count--;
+			rot_count--;
+		}
+		cur_node = cur_node->next;
+		rot_count++;
+	}
+	cur_node = orig_pos;
+	while (el_count)
+	{
+		if (cur_node->sorted == false && cur_node->element < piv)
+		{
+			el_count--;
+			rot_count--;
+		}
+		cur_node = cur_node->prev;
+		rot_count--;
+	}
+	if (rot_count > 0)
+		return (reverse);
+	else
+		return (obverse);
+}
+
+t_intlist	*find_target_b(t_intlist *top_unsorted, int pivot)
+{
+	t_intlist *cur_node;
+
+	cur_node = top_unsorted;
+	while (cur_node->element >= pivot)
+		cur_node = cur_node->next;
+	return (cur_node);
+}
+
+e_rot_dir	shortest_path_b(t_intlist *orig_pos, int piv, int count)
+{
+	t_intlist	*cur_node;
+	int			rot_count;
+	int			el_count;
+
+	el_count = count;
+	cur_node = orig_pos;
+	rot_count = 0;
+	while (count)
+	{
+		if (cur_node->sorted == false && cur_node->element > piv)
+		{
+			count--;
+			rot_count--;
+		}
+		cur_node = cur_node->next;
+		rot_count++;
+	}
+	cur_node = orig_pos;
+	while (el_count)
+	{
+		if (cur_node->sorted == false && cur_node->element > piv)
+		{
+			el_count--;
+			rot_count--;
+		}
+		cur_node = cur_node->prev;
+		rot_count--;
+	}
+	if (rot_count > 0)
+		return (reverse);
+	else
+		return (obverse);
+}
+
 // make a version for B to sort them in the opposite order
 void	sort_last_three(t_stacks *stacks, e_op_stack stack, t_intlist *node)
 {
@@ -135,36 +227,50 @@ void	sort_last_div(t_stacks *stacks, e_op_stack stack, int count)
 }
 
 // add the opposite rotation optimazation
-void	div_a(t_stacks *stacks, int *sorted_count, int pivot)
+void	div_a(t_stacks *stacks, int *sorted_count, int pivot, e_rot_dir dir)
 {
 	int			count;
+	e_op_name	op;
 
-	count = stacks->len_a - *sorted_count;
-	while (count--)
+	if (dir == obverse)
+		op = op_rot;
+	else
+		op = op_rrot;
+	count = (stacks->len_a - *sorted_count) / 2 - 1;
+	while (count)
 	{
-		if (stacks->a->sorted == true)
-			break ;
 		if (stacks->a->element < pivot)
+		{
 			do_op(stacks, op_push, stack_b, 1);
+			count--;
+		}
 		else
-			do_op(stacks, op_rot, stack_a, 1);
+			do_op(stacks, op, stack_a, 1);
 	}
 }
 
 // add the opposite rotation optimazation
-void	div_b(t_stacks *stacks, int *sorted_count, int pivot)
+void	div_b(t_stacks *stacks, int *sorted_count, int pivot, e_rot_dir dir)
 {
 	int			count;
-
-	count = stacks->len_b - *sorted_count;
-	while (count--)
+	e_op_name	op;
+//
+	if (dir == obverse)
+		op = op_rot;
+	else
+		op = op_rrot;
+	count = (stacks->len_b - *sorted_count) / 2 - 1;
+	while (count)
 	{
 		if (stacks->b->sorted == true)
 			break ;
 		if (stacks->b->element > pivot)
+		{
 			do_op(stacks, op_push, stack_a, 1);
+			count--;
+		}
 		else
-			do_op(stacks, op_rot, stack_b, 1);
+			do_op(stacks, op, stack_b, 1);
 	}
 }
 
@@ -175,6 +281,7 @@ void	quicksort(t_stacks *stacks)
 	int			pivot; // this should ne put inside a and b things
 	int			is_odd;
 	t_med_arrs	*med_arrs;
+	e_rot_dir	dir;
 
 	sorted_a = 0;
 	sorted_b = 0;
@@ -184,30 +291,45 @@ void	quicksort(t_stacks *stacks)
 	{
 		while (stacks->len_a - sorted_a > 3)
 		{
-			if (stacks->sorted_bot_a)
-				rot_to(stacks->sorted_bot_a->next, stacks, stack_a);
+			//	rot_to(stacks->sorted_bot_a->next, stacks, stack_a);
 			is_odd = (stacks->len_a - sorted_a) % 2 != 0;
-			put_part_on_arr(med_arrs, stacks->a, stacks->len_a - sorted_a);
-			pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
-			div_a(stacks, &sorted_a, pivot);
+			if (stacks->sorted_bot_a)
+			{
+				put_part_on_arr(med_arrs, stacks->sorted_bot_a->next, stacks->len_a - sorted_a);
+				pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
+			}
+			else
+			{
+				put_part_on_arr(med_arrs, stacks->a, stacks->len_a - sorted_a);
+				pivot = find_median(med_arrs, stacks->len_a - sorted_a, is_odd + ((stacks->len_a - sorted_a) / 2));
+			}
+			dir = shortest_path_a(stacks->a, pivot, (stacks->len_a - sorted_a) / 2 - 1);
+			div_a(stacks, &sorted_a, pivot, dir);
 		}
 		sort_last_div(stacks, stack_a, stacks->len_a - sorted_a);
 		sorted_a += stacks->len_a - sorted_a;
 		// comment for readability, b starts after this
 		while (stacks->len_b - sorted_b > 3)
 		{
+			//rot_to(stacks->sorted_bot_b->next, stacks, stack_b);
 			if (stacks->sorted_bot_b)
-				rot_to(stacks->sorted_bot_b->next, stacks, stack_b);
-			is_odd = (stacks->len_b - sorted_b) % 2 != 0;
-			put_part_on_arr(med_arrs, stacks->b, stacks->len_b - sorted_b);
-			pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
-			div_b(stacks, &sorted_b, pivot);
+			{
+				put_part_on_arr(med_arrs, stacks->sorted_bot_b->next, stacks->len_b - sorted_b);
+				pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
+			}
+			else
+			{
+				put_part_on_arr(med_arrs, stacks->b, stacks->len_b - sorted_b);
+				pivot = find_median(med_arrs, stacks->len_b - sorted_b, is_odd + ((stacks->len_b - sorted_b) / 2));
+			}
+			dir = shortest_path_b(stacks->b, pivot, (stacks->len_b - sorted_b) / 2 - 1);
+			div_b(stacks, &sorted_b, pivot, dir);
 		}
 		sort_last_div(stacks, stack_b, stacks->len_b - sorted_b);
 		sorted_b += stacks->len_b - sorted_b;
 	}
-//	print_stack(stacks->a, stacks->len_a, 'a', 0);
-//	print_stack(stacks->b, stacks->len_b, 'b', 0);
+	print_stack(stacks->a, stacks->len_a, 'a', 0);
+	print_stack(stacks->b, stacks->len_b, 'b', 0);
 	free_med_arrs(med_arrs);
 }
 
