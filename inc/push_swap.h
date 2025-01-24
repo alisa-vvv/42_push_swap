@@ -80,8 +80,7 @@ typedef void	(*operation)(t_stacks *stacks);
 //	int	rr_count;
 //	int	rra_count;
 //	int	rrb_count;
-//	int	rrr_count;
-//}		t_opcount;
+//	int	rrr_count; }		t_opcount;
 
 /* t_intlist initialzation */
 t_intlist	*add_node(int init_val);
