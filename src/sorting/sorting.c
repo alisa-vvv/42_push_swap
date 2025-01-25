@@ -57,28 +57,67 @@ int	count_obv_rots(t_intlist *node, const t_intlist *target)
 	return (count);
 }
 
-t_intlist	*find_cheapest(t_stacks *stacks, t_opcount *opcount)
+t_opcount	count_a(t_stacks *stacks, t_opcount opc, t_intlist *cand)
 {
-	int			total_count;
-	t_intlist	*candidate;
 	t_intlist	*cand_place;
-	int			len;
-	t_opcount	cur_opcount;
 
-	total_count = 0;
-	candidate = stacks->b->prev;
+	cand_place = find_cand_place(stacks, cand->element, stacks->len_a);
+	opc.ra_count = count_obv_rots(stacks->a, cand_place);
+	opc.rra_count = count_rev_rots(stacks->a, cand_place);
+	return (opc);
+}
+
+t_opcount	count_b(t_intlist *b, t_opcount opc, t_intlist *cand)
+{
+	opc.rb_count = count_obv_rots(b, cand);
+	opc.rrb_count = count_obv_rots(b, cand);
+	return (opc);
+}
+
+int	check_count(int total_count, t_opcount cur_opcount)
+{
+	if (total_count && total_count < cur_opcount.rb_count
+		&& total_count < cur_opcount.rrb_count
+		&& total_count < cur_opcount.ra_count
+		&& total_count < cur_opcount.rra_count)
+		return (total_count + 1);
+	return (total_count);
+}
+
+t_intlist *find_cand(t_stacks *stacks, t_intlist *cand, t_opcount *cur_opcount, int tot_c)
+{
+	int			len;
+	t_intlist	*candidate;
+
 	len = stacks->len_b;
 	while (len--)
 	{
 		candidate = candidate->next;
-		cur_opcount.rb_count = count_obv_rots(stacks->b, candidate);
-		if (total_count && total_count < cur_opcount.rb_count)
-			continue ;
-		cand_place = find_cand_place(stacks, candidate->element, stacks->len_a);
-		cur_opcount.ra_count = count_obv_rots(stacks->a, cand_place);
-		cur_opcount.rra_count = count_rev_rots(stacks->a, cand_place);
-		break ;
+		*cur_opcount = count_b(stacks->b, *cur_opcount, candidate);
+		*cur_opcount = count_a(stacks, *cur_opcount, candidate);
+		if (check_count(tot_c, *cur_opcount) > tot_c)
+			break ;
 	}
+	candidate = stacks->b;
+	while (len--)
+	{
+		candidate = candidate->prev;
+		*cur_opcount = count_b(stacks->b, *cur_opcount, candidate);
+		*cur_opcount = count_a(stacks, *cur_opcount, candidate);
+		if (check_count(tot_c, *cur_opcount) > tot_c)
+			break ;
+	}
+	return(candidate);
+}
+
+t_intlist	*find_cheapest(t_stacks *stacks, t_opcount *opcount)
+{
+	int			total_count;
+	t_intlist	*candidate;
+	t_opcount	cur_opcount;
+
+	total_count = 0;
+	candidate = find_cand(stacks, &cur_opcount, total_count);
 	cur_opcount.pa_count = 1;
 	*opcount = cur_opcount;
 	return (candidate);
@@ -100,11 +139,12 @@ void	turk(t_stacks *stacks)
 	{
 		candidate = find_cheapest(stacks, &opcount);
 		print_stack(stacks->a, stacks->len_a, 'a', 1);
+		ft_printf("ra_count: %d\n", opcount.ra_count);
+		ft_printf("rra_count: %d\n", opcount.rra_count);
 		print_stack(stacks->b, stacks->len_b, 'b', 1);
 		ft_printf("candidate value: %d\n", candidate->element);
 		ft_printf("rb_count: %d\n", opcount.rb_count);
-		ft_printf("ra_count: %d\n", opcount.ra_count);
-		ft_printf("rra_count: %d\n", opcount.rra_count);
+		ft_printf("rrb_count: %d\n", opcount.rrb_count);
 		ft_printf("pa_count: %d\n", opcount.pa_count);
 		do_op(stacks, op_push, stack_a, 1);
 		if (candidate > stacks->tail_a)
