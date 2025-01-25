@@ -29,11 +29,9 @@ typedef struct	s_intlist
 typedef struct	s_stacks
 {
 	t_intlist		*a;
+	t_intlist		*head_a;
+	t_intlist		*tail_a;
 	t_intlist		*b;
-	t_intlist		*sorted_top_a;
-	t_intlist		*sorted_bot_a;
-	t_intlist		*sorted_top_b;
-	t_intlist		*sorted_bot_b;
 	int		len_a;
 	int		len_b;
 }			t_stacks;
@@ -68,19 +66,20 @@ typedef enum	op_name
 
 typedef void	(*operation)(t_stacks *stacks);
 
-//typedef struct	s_opcount
-//{
-//	int	sa_count;
-//	int	sb_count;
-//	int	ss_count;
-//	int	pa_count;
-//	int	pb_count;
-//	int	ra_count;
-//	int	rb_count;
-//	int	rr_count;
-//	int	rra_count;
-//	int	rrb_count;
-//	int	rrr_count; }		t_opcount;
+typedef struct	s_opcount
+{
+	int	sa_count;
+	int	sb_count;
+	int	ss_count;
+	int	pa_count;
+	int	pb_count;
+	int	ra_count;
+	int	rb_count;
+	int	rr_count;
+	int	rra_count;
+	int	rrb_count;
+	int	rrr_count;
+}		t_opcount;
 
 /* t_intlist initialzation */
 t_intlist	*add_node(int init_val);
@@ -95,13 +94,7 @@ void		fill_stack(t_stacks *stacks, int count, char **numbers);
 void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
-void		put_part_on_arr(t_med_arrs *med_arrs, t_intlist *top_node, int count);
-t_med_arrs *free_med_arrs(t_med_arrs *med_arrs);
-t_med_arrs	*alloc_med_arrs(t_intlist *top_node, int count);
-int	find_median(t_med_arrs *arrs, const int len, const int med_pos);
-void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len);
-void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b);
-void	quicksort(t_stacks *stacks);
+void	turk(t_stacks *stacks);
 
 /* operations */
 void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n);

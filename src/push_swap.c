@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 //	if (argc <= 4)
 //		sort_small_stack(stacks, stack_a, stacks->len_a);
 //	else
-		quicksort(stacks);
+		turk(stacks);
 //	print_stack(stacks->b, stacks->len_b, 'b', 1);
 //	print_stack(stacks->a, stacks->len_a, 'a', 1);
 	free_exit(stacks, 0);
