@@ -35,7 +35,6 @@ typedef struct	s_stacks
 	int		len_a;
 	int		len_b;
 }			t_stacks;
-
 typedef struct	s_med_arrs
 {
 	int	*elems;
