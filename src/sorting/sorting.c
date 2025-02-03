@@ -100,6 +100,75 @@ int	count_obv_rots(t_intlist *node, const t_intlist *target)
 	return (count);
 }
 
+// need a funciton that will check the smallest possible combination out of 4.
+// it will count rotations that can be saved by doing rr or rrr insead of separate
+// rotations.
+// the  4 possible combinations are:
+// 1) the smallest amount of action is rr (combine ra and rb, get ocunt of rr instead)
+// 2) the smallest amount is rrr (combine rra and rrb, get count of rrr instead)
+// 3-4) the smallest amount is doing actions without combining:
+// 		3) some ra's and some rrb's
+// 		4) some rra's and some rb's
+// get that by counting:
+// 1) if there's both racount and rbcount, reduce both,increment rrcount;
+// 2) if there's both rracount and rrbcount, decrement both, incrememnt rrrcount;
+// 3) count ra's + rrb's;
+// 4) count rra's + rb's;
+// compare the 4 values, choose the smallest total.
+// can be done by having 4 t_opcounts and a function for counting per combnation
+
+t_opcount	count_rr(t_opcount opcount)
+{
+	t_opcount	rr_opcount;
+
+	rr_opcount = init_opcount();
+	if (opcount.ra_count && opcount.rb_count)
+	{
+		opcount.ra_count--;
+		opcount.rb_count--;
+		rr_opcount.rr_count++;
+	}
+	rr_opcount.ra_count = opcount.ra_count;
+	rr_opcount.rb_count = opcount.rb_count;
+	return (rr_opcount);
+}
+
+t_opcount	count_rrr(t_opcount opcount)
+{
+	t_opcount	rrr_opcount;
+
+	rrr_opcount = init_opcount();
+	if (opcount.rra_count && opcount.rrb_count)
+	{
+		opcount.rra_count--;
+		opcount.rrb_count--;
+		rrr_opcount.rrr_count++;
+	}
+	rrr_opcount.rra_count = opcount.rra_count;
+	rrr_opcount.rrb_count = opcount.rrb_count;
+	return (rrr_opcount);
+}
+
+t_opcount	count_ra_rrb(t_opcount opcount)
+{
+	t_opcount	ra_rrb_opcount;
+
+	ra_rrb_opcount = init_opcount();
+	ra_rrb_opcount.ra_count = opcount.ra_count;
+	ra_rrb_opcount.rrb_count = opcount.rrb_count;
+	return (ra_rrb_opcount);
+}
+
+t_opcount	count_rb_rra(t_opcount opcount)
+{
+	t_opcount	rb_rra_count;
+
+	rb_rra_count = init_opcount();
+	rb_rra_count.rb_count = opcount.rb_count;
+	rb_rra_count.rra_count = opcount.rra_count;
+	return (rb_rra_count);
+}
+
 void	count_a(t_stacks *stacks, t_opcount *opc, t_intlist *cand)
 {
 	t_intlist	*cand_place;
@@ -126,48 +195,49 @@ int	check_count(int total_count, t_opcount cur_opcount)
 }
 
 //to be reweitten
-t_intlist *find_cand(t_stacks *stacks, t_opcount *cur_opcount, int tot_c)
+t_intlist *find_cand(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
 {
 	int			len;
-	t_intlist	*candidate;
+	t_intlist	*pot_candidate;
 
 	len = stacks->len_b;
-	candidate = stacks->b;
+	pot_candidate = stacks->b;
+	//instead of len, this should use a clone of cur_total. this way, we don't have to use check_count every time, we will naturally know when to stop looking
 	while (len--)
 	{
-		candidate = candidate->next;
-		count_b(stacks->b, cur_opcount, candidate);
-		count_a(stacks, cur_opcount, candidate);
-		if (check_count(tot_c, *cur_opcount) > tot_c)
+		//inside the loops, if candidate is found, count all combinations, check if new total is bigger, move on if no, else, save it as pot_opcount. pot_opcount should be nill by default so we can check if one that's smaller than cur is found it all (or have a separate value to track that)
+		pot_candidate = pot_candidate->next;
+		count_b(stacks->b, pot_opcount, pot_candidate);
+		count_a(stacks, pot_opcount, pot_candidate);
+		if (check_count(cur_tot, *pot_opcount) > cur_tot)
 			break ;
 	}
-	candidate = stacks->b;
+	pot_candidate = stacks->b;
 	while (len--)
 	{
-		candidate = candidate->prev;
-		count_b(stacks->b, cur_opcount, candidate);
-		count_a(stacks, cur_opcount, candidate);
-		if (check_count(tot_c, *cur_opcount) > tot_c)
+		pot_candidate = pot_candidate->prev;
+		count_b(stacks->b, pot_opcount, pot_candidate);
+		count_a(stacks, pot_opcount, pot_candidate);
+		if (check_count(cur_tot, *pot_opcount) > cur_tot)
 			break ;
 	}
-	return (candidate);
+	return (pot_candidate);
 }
 
 //to be reweitten
 // pass pointers to current candidat erelated stuff
 // here, crate pot_candidate related stuff
 // run through stack b and update the current candidate until checked all within range/found candidate
+// this is done by running find_cand, then running a separate compare function I think once a cand is found
 // profit
-//t_intlist	*find_cheapest(t_stacks *stacks, t_opcount *opcount)
-//{
-//	int			total_count;
-//	t_intlist	*candidate;
-//	t_opcount	cur_opcount;
-//
-//	total_count = 0;
-//	*opcount = cur_opcount;
-//	return (candidate);
-//}
+t_intlist	*find_cheapest(t_stacks *stacks, int *cur_total) 
+{
+	t_intlist	*pot_candidate;
+	t_opcount	pot_opcount;
+
+	pot_candidate = find_cand(stacks, &pot_opcount, cur_total);
+	return (pot_candidate);
+}
 
 void	turk(t_stacks *stacks)
 {
