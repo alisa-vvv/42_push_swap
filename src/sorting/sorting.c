@@ -1,20 +1,5 @@
 #include "push_swap.h"
 
-//	Start with elmeent 1 in b
-//	STEP1:
-//	1) Count rotations to chosen element in b
-//	2) If it's bigger than current total_count, stop
-//	2) Find the place in a where it belongs to
-//	3) Count rotations needed to perform in a to get to the element after place
-//	4) check if these rotations can be performed at the same time
-//	5) reutrn the total number of rotations
-//	6) compare to current total steps, if bigger, stop;
-//	STEP2:
-//	1) if number of total steps is lower than previous, add the push action
-//	2) if it's still lower, you found current candidate
-//	3) save the candidate and number of steps
-//	4) keep going in both of the rotation directions until all possible candidatesare checked
-
 int	count_total(t_opcount opcount)
 {
 	int	total;
@@ -54,6 +39,7 @@ t_opcount	init_opcount(void)
 }
 
 // i think this is wrong
+// I don;t think this is wrong
 t_intlist *find_cand_place(t_stacks *stacks, int cand_val, int len)
 {
 	t_intlist	*cur_node;
@@ -103,23 +89,6 @@ int	count_obv_rots(t_intlist *node, const t_intlist *target)
 	}
 	return (count);
 }
-
-// need a funciton that will check the smallest possible combination out of 4.
-// it will count rotations that can be saved by doing rr or rrr insead of separate
-// rotations.
-// the  4 possible combinations are:
-// 1) the smallest amount of action is rr (combine ra and rb, get ocunt of rr instead)
-// 2) the smallest amount is rrr (combine rra and rrb, get count of rrr instead)
-// 3-4) the smallest amount is doing actions without combining:
-// 		3) some ra's and some rrb's
-// 		4) some rra's and some rb's
-// get that by counting:
-// 1) if there's both racount and rbcount, reduce both,increment rrcount;
-// 2) if there's both rracount and rrbcount, decrement both, incrememnt rrrcount;
-// 3) count ra's + rrb's;
-// 4) count rra's + rb's;
-// compare the 4 values, choose the smallest total.
-// can be done by having 4 t_opcounts and a function for counting per combnation
 
 t_opcount	count_rr(t_opcount opcount)
 {
@@ -255,7 +224,16 @@ t_opcount	check_cand_opcount(t_stacks *stacks, t_intlist *cand)
 	return (pot_opcount);
 }
 
-// rewrote this
+// in some cases, this appears to return the wrong pointer after finding the candidate.
+// the logic of finding the candidate and counting steps appers to be correct, the return
+// value appears to be wrong
+// I think the candidate might be correct actually, seems more like the popcount will change
+// while the pot_candidate remains the same. this can be fixed by splitting it into two
+// functions and using local values in loop and only returning/dereferencing *pot_opcount
+// and *pot_candidate when a new candidate is found. current version will return new_candidate
+// , but the pot_opcount might be of a different (later) candidate. one such error will cascade
+// and cause all further operatiosn to be incorrect.
+// just fix it dumbass
 t_intlist *find_cand(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
 {
 	int			steps;
@@ -339,6 +317,7 @@ void	turk(t_stacks *stacks)
 			candidate = pot_candidate;
 			opcount = pot_opcount;
 		}
+		ft_printf("is this candidate wrong? %d\n", candidate->element);
 		execute_operations(stacks, opcount);
 		if (stacks->a->element < stacks->head_a->element)
 			stacks->head_a = stacks->a;
