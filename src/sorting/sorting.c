@@ -64,10 +64,12 @@ t_intlist *find_cand_place(t_stacks *stacks, int cand_val, int len)
 		ft_printf("and the value is: %d\n", stacks->head_a->element);
 		return (stacks->head_a);
 	}
-	cur_node = stacks->a;
+	ft_printf("head_a: %d\n", stacks->head_a->element);
+	ft_printf("tail_a: %d\n", stacks->tail_a->element);
+	cur_node = stacks->head_a;
 	while (len--)
 	{
-		if (cand_val > cur_node->prev->element && cand_val < cur_node->element)
+		if (cand_val < cur_node->element)
 			break ;
 		cur_node = cur_node->next;
 	}
@@ -124,29 +126,29 @@ t_opcount	count_rr(t_opcount opcount)
 	t_opcount	rr_opcount;
 
 	rr_opcount = init_opcount();
+	while (opcount.ra_count && opcount.rb_count)
+	{
+		opcount.ra_count--;
+		opcount.rb_count--;
+		rr_opcount.rr_count++;
+	}
+	rr_opcount.ra_count = opcount.ra_count;
+	rr_opcount.rb_count = opcount.rb_count;
 //	if (opcount.ra_count && opcount.rb_count)
 //	{
-//		opcount.ra_count--;
-//		opcount.rb_count--;
-//		rr_opcount.rr_count++;
+//		if (opcount.ra_count > opcount.rb_count)
+//		{
+//			rr_opcount.rr_count = opcount.rb_count;
+//			rr_opcount.ra_count = opcount.ra_count - opcount.rb_count;
+//		}
+//		else if (opcount.rb_count > opcount.ra_count)
+//		{
+//			rr_opcount.rr_count = opcount.ra_count;
+//			rr_opcount.rb_count = opcount.rb_count - opcount.ra_count;
+//		}
+//		else
+//			rr_opcount.rr_count = opcount.ra_count;
 //	}
-	if (opcount.ra_count && opcount.rb_count)
-	{
-		if (opcount.ra_count > opcount.rb_count)
-		{
-			rr_opcount.rr_count = opcount.rb_count;
-			rr_opcount.ra_count = opcount.ra_count - opcount.rb_count;
-		}
-		else if (opcount.rb_count > opcount.ra_count)
-		{
-			rr_opcount.rr_count = opcount.ra_count;
-			rr_opcount.rb_count = opcount.rb_count - opcount.ra_count;
-		}
-		else
-			rr_opcount.rr_count = opcount.ra_count;
-	}
-	//rr_opcount.ra_count = opcount.ra_count;
-	//rr_opcount.rb_count = opcount.rb_count;
 	return (rr_opcount);
 }
 
@@ -155,29 +157,29 @@ t_opcount	count_rrr(t_opcount opcount)
 	t_opcount	rrr_opcount;
 
 	rrr_opcount = init_opcount();
-	//if (opcount.rra_count && opcount.rrb_count)
-	//{
-	//	opcount.rra_count--;
-	//	opcount.rrb_count--;
-	//	rrr_opcount.rrr_count++;
-	//}
-	//rrr_opcount.rra_count = opcount.rra_count;
-	//rrr_opcount.rrb_count = opcount.rrb_count;
-	if (opcount.rra_count && opcount.rrb_count)
+	while (opcount.rra_count && opcount.rrb_count)
 	{
-		if (opcount.rra_count > opcount.rrb_count)
-		{
-			rrr_opcount.rrr_count = opcount.rrb_count;
-			rrr_opcount.rra_count = opcount.rra_count - opcount.rrb_count;
-		}
-		else if (opcount.rrb_count > opcount.rra_count)
-		{
-			rrr_opcount.rrr_count = opcount.rra_count;
-			rrr_opcount.rrb_count = opcount.rrb_count - opcount.rra_count;
-		}
-		else
-			rrr_opcount.rrr_count = opcount.rra_count;
+		opcount.rra_count--;
+		opcount.rrb_count--;
+		rrr_opcount.rrr_count++;
 	}
+	rrr_opcount.rra_count = opcount.rra_count;
+	rrr_opcount.rrb_count = opcount.rrb_count;
+//	if (opcount.rra_count && opcount.rrb_count)
+//	{
+//		if (opcount.rra_count > opcount.rrb_count)
+//		{
+//			rrr_opcount.rrr_count = opcount.rrb_count;
+//			rrr_opcount.rra_count = opcount.rra_count - opcount.rrb_count;
+//		}
+//		else if (opcount.rrb_count > opcount.rra_count)
+//		{
+//			rrr_opcount.rrr_count = opcount.rra_count;
+//			rrr_opcount.rrb_count = opcount.rrb_count - opcount.rra_count;
+//		}
+//		else
+//			rrr_opcount.rrr_count = opcount.rra_count;
+//	}
 	return (rrr_opcount);
 }
 
@@ -238,7 +240,7 @@ t_opcount	find_smallest_opcount(t_opcount opc)
 		smallest = rb_rra;
 	if (count_total(rr) == 1 && count_total(rrr) == 1 && count_total(ra_rrb) == 1
 		&& count_total(rb_rra) == 1)
-		return (rr);
+		return (init_opcount());
 	return (smallest);
 }
 
@@ -326,7 +328,6 @@ void	turk(t_stacks *stacks)
 	do_op(stacks, op_push, stack_b, stacks->len_a - 1);
 	stacks->head_a = stacks->a;
 	stacks->tail_a = stacks->a;
-
 	while (stacks->len_b)
 	{
 		candidate = stacks->b;
@@ -339,14 +340,13 @@ void	turk(t_stacks *stacks)
 			opcount = pot_opcount;
 		}
 		execute_operations(stacks, opcount);
-		if (stacks->head_a->element > candidate->element)
-			stacks->head_a = candidate;
-		if (stacks->tail_a->element < candidate->element)
-			stacks->tail_a = candidate;
+		if (stacks->a->element < stacks->head_a->element)
+			stacks->head_a = stacks->a;
+		if (stacks->a->element > stacks->tail_a->element)
+			stacks->tail_a = stacks->a;
+		print_stack(stacks->a, stacks->len_a, 'a', 1);
+		print_stack(stacks->b, stacks->len_b, 'b', 1);
 	}
-	print_stack(stacks->a, stacks->len_a, 'a', 0);
-	print_stack(stacks->b, stacks->len_b, 'b', 0);
 	ft_printf("head a: %d\n", stacks->head_a->element);
 	ft_printf("tail a: %d\n", stacks->tail_a->element);
-
 }
