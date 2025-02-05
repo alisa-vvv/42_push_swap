@@ -35,6 +35,7 @@ typedef struct	s_stacks
 	int		len_a;
 	int		len_b;
 }			t_stacks;
+
 typedef struct	s_med_arrs
 {
 	int	*elems;
@@ -94,6 +95,8 @@ void		free_exit(t_stacks *stacks, int error_check);
 
 /* sorting */
 void	turk(t_stacks *stacks);
+void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len);
+void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b);
 
 /* operations */
 void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n);

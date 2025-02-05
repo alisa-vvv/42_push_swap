@@ -46,12 +46,8 @@ t_intlist *find_cand_place(t_stacks *stacks, int cand_val, int len)
 
 	if (cand_val < stacks->head_a->element || cand_val > stacks->tail_a->element)
 	{
-		ft_printf("el is top or bot\n");
-		ft_printf("and the value is: %d\n", stacks->head_a->element);
 		return (stacks->head_a);
 	}
-	ft_printf("head_a: %d\n", stacks->head_a->element);
-	ft_printf("tail_a: %d\n", stacks->tail_a->element);
 	cur_node = stacks->head_a;
 	while (len--)
 	{
@@ -59,8 +55,6 @@ t_intlist *find_cand_place(t_stacks *stacks, int cand_val, int len)
 			break ;
 		cur_node = cur_node->next;
 	}
-	ft_printf("candidate val is: %d\n", cand_val);
-	ft_printf("candidate place is: %d\n", cur_node->element);
 	return (cur_node);
 }
 
@@ -103,21 +97,6 @@ t_opcount	count_rr(t_opcount opcount)
 	}
 	rr_opcount.ra_count = opcount.ra_count;
 	rr_opcount.rb_count = opcount.rb_count;
-//	if (opcount.ra_count && opcount.rb_count)
-//	{
-//		if (opcount.ra_count > opcount.rb_count)
-//		{
-//			rr_opcount.rr_count = opcount.rb_count;
-//			rr_opcount.ra_count = opcount.ra_count - opcount.rb_count;
-//		}
-//		else if (opcount.rb_count > opcount.ra_count)
-//		{
-//			rr_opcount.rr_count = opcount.ra_count;
-//			rr_opcount.rb_count = opcount.rb_count - opcount.ra_count;
-//		}
-//		else
-//			rr_opcount.rr_count = opcount.ra_count;
-//	}
 	return (rr_opcount);
 }
 
@@ -134,21 +113,6 @@ t_opcount	count_rrr(t_opcount opcount)
 	}
 	rrr_opcount.rra_count = opcount.rra_count;
 	rrr_opcount.rrb_count = opcount.rrb_count;
-//	if (opcount.rra_count && opcount.rrb_count)
-//	{
-//		if (opcount.rra_count > opcount.rrb_count)
-//		{
-//			rrr_opcount.rrr_count = opcount.rrb_count;
-//			rrr_opcount.rra_count = opcount.rra_count - opcount.rrb_count;
-//		}
-//		else if (opcount.rrb_count > opcount.rra_count)
-//		{
-//			rrr_opcount.rrr_count = opcount.rra_count;
-//			rrr_opcount.rrb_count = opcount.rrb_count - opcount.rra_count;
-//		}
-//		else
-//			rrr_opcount.rrr_count = opcount.rra_count;
-//	}
 	return (rrr_opcount);
 }
 
@@ -184,7 +148,7 @@ void	count_a(t_stacks *stacks, t_opcount *opc, t_intlist *cand)
 void	count_b(t_intlist *b, t_opcount *opc, t_intlist *cand)
 {
 	opc->rb_count = count_obv_rots(b, cand);
-	opc->rrb_count = count_obv_rots(b, cand);
+	opc->rrb_count = count_rev_rots(b, cand);
 }
 
 t_opcount	find_smallest_opcount(t_opcount opc)
@@ -199,17 +163,13 @@ t_opcount	find_smallest_opcount(t_opcount opc)
 	rrr = count_rrr(opc);
 	ra_rrb = count_ra_rrb(opc);
 	rb_rra = count_rb_rra(opc);
-	if (count_total(rr) > 1)
-		smallest = rr;
-	if (count_total(rr) > count_total(rrr) && count_total(rrr) > 1)
+	smallest = rr;
+	if (count_total(smallest) > count_total(rrr))
 		smallest = rrr;
-	if (count_total(rrr) > count_total(ra_rrb) && count_total(ra_rrb) > 1)
+	if (count_total(smallest) > count_total(ra_rrb))
 		smallest = ra_rrb;
-	if (count_total(ra_rrb) > count_total(rb_rra) && count_total(rb_rra) > 1)
+	if (count_total(smallest) > count_total(rb_rra))
 		smallest = rb_rra;
-	if (count_total(rr) == 1 && count_total(rrr) == 1 && count_total(ra_rrb) == 1
-		&& count_total(rb_rra) == 1)
-		return (init_opcount());
 	return (smallest);
 }
 
@@ -224,59 +184,75 @@ t_opcount	check_cand_opcount(t_stacks *stacks, t_intlist *cand)
 	return (pot_opcount);
 }
 
-// in some cases, this appears to return the wrong pointer after finding the candidate.
-// the logic of finding the candidate and counting steps appers to be correct, the return
-// value appears to be wrong
-// I think the candidate might be correct actually, seems more like the popcount will change
-// while the pot_candidate remains the same. this can be fixed by splitting it into two
-// functions and using local values in loop and only returning/dereferencing *pot_opcount
-// and *pot_candidate when a new candidate is found. current version will return new_candidate
-// , but the pot_opcount might be of a different (later) candidate. one such error will cascade
-// and cause all further operatiosn to be incorrect.
-// just fix it dumbass
-t_intlist *find_cand(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
+int	cand_rev(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
 {
 	int			steps;
-	t_intlist	*pot_candidate;
-	t_intlist	*new_candidate;
+	t_intlist	*tmp_cand;
+	t_opcount	tmp_opcount;
 	int			pot_tot;
 
-	if (cur_tot <= stacks->len_b)
-		steps = cur_tot;
+	if (tot <= stacks->len_b)
+		steps = tot;
 	else
 		steps = stacks->len_b;
-	new_candidate = NULL;
-	pot_candidate = stacks->b;
+	tmp_cand = stacks->b;
 	while (steps-- > 0)
 	{
-		pot_candidate = pot_candidate->next;
-		*pot_opcount = check_cand_opcount(stacks, pot_candidate);
-		pot_tot = count_total(*pot_opcount);
-		if (pot_tot < cur_tot)
+		tmp_cand = tmp_cand->prev;
+		tmp_opcount = check_cand_opcount(stacks, tmp_cand);
+		pot_tot = count_total(tmp_opcount);
+		if (pot_tot < tot)
 		{
-			steps -= (cur_tot - pot_tot);
-			new_candidate = pot_candidate;
+			steps -= (tot - pot_tot);
+			*cand = tmp_cand;
+			*opc = tmp_opcount;
 		}
 	}
-	pot_candidate = stacks->b;
-	if (new_candidate)
+	return (pot_tot);
+}
+
+int	cand_obv(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
+{
+	int			steps;
+	t_intlist	*tmp_cand;
+	t_opcount	tmp_opcount;
+	int			pot_tot;
+
+	if (tot <= stacks->len_b)
+		steps = tot;
+	else
+		steps = stacks->len_b;
+	tmp_cand = stacks->b;
+	while (steps-- > 0)
+	{
+		tmp_cand = tmp_cand->next;
+		tmp_opcount = check_cand_opcount(stacks, tmp_cand);
+		pot_tot = count_total(tmp_opcount);
+		if (pot_tot < tot)
+		{
+			steps -= (tot - pot_tot);
+			*cand = tmp_cand;
+			*opc = tmp_opcount;
+		}
+	}
+	return (pot_tot);
+}
+
+t_intlist *find_cand(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
+{
+	t_intlist	*pot_candidate;
+	int			pot_tot;
+	t_opcount	new_opcount;
+	
+	pot_candidate = NULL;
+	new_opcount = init_opcount();
+	pot_tot = cand_obv(stacks, &new_opcount, &pot_candidate, cur_tot);
+	if (pot_candidate)
 		cur_tot = pot_tot;
-	if (cur_tot <= stacks->len_b)
-		steps = cur_tot;
-	else
-		steps = stacks->len_b;
-	while (steps-- > 0)
-	{
-		pot_candidate = pot_candidate->prev;
-		*pot_opcount = check_cand_opcount(stacks, pot_candidate);
-		pot_tot = count_total(*pot_opcount);
-		if (pot_tot < cur_tot)
-		{
-			steps -= (cur_tot - pot_tot);
-			new_candidate = pot_candidate;
-		}
-	}
-	return (new_candidate);
+	cand_rev(stacks, &new_opcount, &pot_candidate, cur_tot);
+	if (pot_candidate)
+		*pot_opcount = new_opcount;
+	return (pot_candidate);
 }
 
 void	execute_operations(t_stacks *stacks, t_opcount ops)
@@ -296,6 +272,21 @@ void	execute_operations(t_stacks *stacks, t_opcount ops)
 	do_op(stacks, op_push, stack_a, 1);
 }
 
+void	pot_lowest_on_top(t_stacks *stacks)
+{
+	int	obv_count;
+	int	rev_count;
+
+	obv_count = count_obv_rots(stacks->a, stacks->head_a);
+	rev_count = count_rev_rots(stacks->a, stacks->head_a);
+	if (obv_count < rev_count)
+		do_op (stacks, op_rot, stack_a, obv_count);
+	else
+		do_op (stacks, op_rrot, stack_a, rev_count);
+}
+
+// looks like it needs the lis optimization
+// also looks like it doenst actually properly check the first value. fix that
 void	turk(t_stacks *stacks)
 {
 	t_opcount	opcount;
@@ -303,9 +294,10 @@ void	turk(t_stacks *stacks)
 	t_intlist	*candidate;
 	t_intlist	*pot_candidate;
 
-	do_op(stacks, op_push, stack_b, stacks->len_a - 1);
+	do_op(stacks, op_push, stack_b, stacks->len_a - 3);
+	sort_three(stacks, stacks->a, stack_a);
 	stacks->head_a = stacks->a;
-	stacks->tail_a = stacks->a;
+	stacks->tail_a = stacks->a->prev;
 	while (stacks->len_b)
 	{
 		candidate = stacks->b;
@@ -313,19 +305,13 @@ void	turk(t_stacks *stacks)
 		pot_opcount = init_opcount();
 		pot_candidate = find_cand(stacks, &pot_opcount, count_total(opcount));
 		if (pot_candidate)
-		{
-			candidate = pot_candidate;
 			opcount = pot_opcount;
-		}
-		ft_printf("is this candidate wrong? %d\n", candidate->element);
 		execute_operations(stacks, opcount);
 		if (stacks->a->element < stacks->head_a->element)
 			stacks->head_a = stacks->a;
 		if (stacks->a->element > stacks->tail_a->element)
 			stacks->tail_a = stacks->a;
-		print_stack(stacks->a, stacks->len_a, 'a', 1);
-		print_stack(stacks->b, stacks->len_b, 'b', 1);
 	}
-	ft_printf("head a: %d\n", stacks->head_a->element);
-	ft_printf("tail a: %d\n", stacks->tail_a->element);
+	if (stacks->a != stacks->head_a)
+		pot_lowest_on_top(stacks);
 }
