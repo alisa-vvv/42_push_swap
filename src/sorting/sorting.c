@@ -26,7 +26,7 @@ t_opcount	init_opcount(void)
 	opcount.sa_count = 0;
 	opcount.sb_count = 0;
 	opcount.ss_count = 0;
-	opcount.pa_count = 1;
+	opcount.pa_count = 0;
 	opcount.pb_count = 0;
 	opcount.ra_count = 0;
 	opcount.rb_count = 0;
@@ -272,7 +272,7 @@ void	execute_operations(t_stacks *stacks, t_opcount ops)
 	do_op(stacks, op_push, stack_a, 1);
 }
 
-void	pot_lowest_on_top(t_stacks *stacks)
+void	put_lowest_on_top(t_stacks *stacks)
 {
 	int	obv_count;
 	int	rev_count;
@@ -285,8 +285,52 @@ void	pot_lowest_on_top(t_stacks *stacks)
 		do_op (stacks, op_rrot, stack_a, rev_count);
 }
 
-// looks like it needs the lis optimization
-// also looks like it doenst actually properly check the first value. fix that
+void	push_to_b(t_stacks *stacks)
+{
+//	t_intlist	*lis_start;
+//	int			lis_len;
+//	t_intlist	*target;
+//	int			rev_count;
+//	int			i;
+
+	//print_stack(stacks->a, stacks->len_a, 'a', 0);
+//	lis_start = stacks->a;
+//	lis_len = find_lis(stacks, &lis_start, stacks->a, stacks->len_a);
+//	while (stacks->a != lis_start)
+//		do_op(stacks, op_push, stack_b, 1);
+//	ft_printf("lis_start: %d\n", lis_start->element);
+//	ft_printf("lis_len: %d\n", lis_len);
+//	target = stacks->a;
+//	i = lis_len;
+//	while (i--)
+//		target = target->next;
+//	rev_count = count_rev_rots(stacks->a, target);
+//	if (rev_count * 2 < stacks->len_a)
+//		do_op(stacks, op_rrot, stack_a, rev_count);
+//	else
+//		do_op(stacks, op_rot, stack_a, lis_len);
+//	while (stacks->a != lis_start)
+//		do_op(stacks, op_push, stack_b, 1);
+//	print_stack(stacks->a, stacks->len_a, 'a', 0);
+//	print_stack(stacks->b, stacks->len_b, 'b', 0);
+	do_op(stacks, op_push, stack_b, stacks->len_a - 3);
+	if (stacks->len_a <= 3)
+		sort_small_stack(stacks, stack_a, stacks->len_a);
+	stacks->head_a = stacks->a;
+	stacks->tail_a = stacks->a->prev;
+//	do_op(stacks, op_push, stack_b, 2);
+//	if (stacks->b < stacks->b->next)
+//	{
+//		stacks->head_b = stacks->b;
+//		stacks->tail_b = stacks->b->next;
+//	}
+//	else
+//	{
+//		stacks->head_b = stacks->b->next;
+//		stacks->tail_b = stacks->b;
+//	}
+}
+
 void	turk(t_stacks *stacks)
 {
 	t_opcount	opcount;
@@ -294,10 +338,7 @@ void	turk(t_stacks *stacks)
 	t_intlist	*candidate;
 	t_intlist	*pot_candidate;
 
-	do_op(stacks, op_push, stack_b, stacks->len_a - 3);
-	sort_three(stacks, stacks->a, stack_a);
-	stacks->head_a = stacks->a;
-	stacks->tail_a = stacks->a->prev;
+	push_to_b(stacks);
 	while (stacks->len_b)
 	{
 		candidate = stacks->b;
@@ -313,5 +354,5 @@ void	turk(t_stacks *stacks)
 			stacks->tail_a = stacks->a;
 	}
 	if (stacks->a != stacks->head_a)
-		pot_lowest_on_top(stacks);
+		put_lowest_on_top(stacks);
 }

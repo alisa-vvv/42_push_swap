@@ -44,11 +44,6 @@ void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 	}
 }
 
-// todo:
-// fix the thing that is commented above turk func
-// add functions to sort smaller sets besides 1, 2, 3 (check which)
-// this should pass minimalist validation, check if you feel like doing max
-//
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
@@ -63,8 +58,8 @@ int	main(int argc, char **argv)
 		sort_small_stack(stacks, stack_a, stacks->len_a);
 	else
 		turk(stacks);
-	print_stack(stacks->a, stacks->len_a, 'a', 0);
-	print_stack(stacks->b, stacks->len_b, 'b', 0);
+//	print_stack(stacks->a, stacks->len_a, 'a', 0);
+//	print_stack(stacks->b, stacks->len_b, 'b', 0);
 	free_exit(stacks, 0);
 	return (0);
 }

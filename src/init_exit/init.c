@@ -7,6 +7,12 @@ static int	push_swap_atoi(t_stacks *stacks, const char *str)
 	int	sign;
 	long		tmp_n;
 	int		str_len;
+	stacks->head_a = NULL;
+	stacks->tail_a = NULL;
+	stacks->head_a = NULL;
+	stacks->tail_a = NULL;
+	stacks->head_a = NULL;
+	stacks->tail_a = NULL;
 
 	sign = 1;
 	if (*str == '-' || *str == '+')
@@ -108,6 +114,8 @@ t_stacks	*allocate_stacks(int count)
 	stacks->a = NULL;
 	stacks->head_a = NULL;
 	stacks->tail_a = NULL;
+	stacks->head_b = NULL;
+	stacks->tail_b = NULL;
 	stacks->b = NULL;
 	stacks->len_a = count;
 	stacks->len_b = 0;

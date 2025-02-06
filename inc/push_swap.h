@@ -32,6 +32,8 @@ typedef struct	s_stacks
 	t_intlist		*head_a;
 	t_intlist		*tail_a;
 	t_intlist		*b;
+	t_intlist		*head_b;
+	t_intlist		*tail_b;
 	int		len_a;
 	int		len_b;
 }			t_stacks;
@@ -97,6 +99,7 @@ void		free_exit(t_stacks *stacks, int error_check);
 void	turk(t_stacks *stacks);
 void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len);
 void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b);
+int		find_lis(t_stacks *stacks, t_intlist **top, t_intlist *cur_node, int len);
 
 /* operations */
 void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n);
