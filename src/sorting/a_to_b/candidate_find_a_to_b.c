@@ -33,9 +33,10 @@ int	cand_rev_a(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
 			steps -= (tot - pot_tot);
 			*cand = tmp_cand;
 			*opc = tmp_opcount;
+			tot = pot_tot;
 		}
 	}
-	return (pot_tot);
+	return (tot);
 }
 
 int	cand_obv_a(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
@@ -60,9 +61,10 @@ int	cand_obv_a(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
 			steps -= (tot - pot_tot);
 			*cand = tmp_cand;
 			*opc = tmp_opcount;
+			tot = pot_tot;
 		}
 	}
-	return (pot_tot);
+	return (tot);
 }
 
 t_intlist *find_cand_a(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)

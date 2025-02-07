@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	if (!stacks)
 		free_exit(stacks, 1);
 	fill_stack(stacks, argc - 1, &argv[1]);
-	if (argc <= 3)
+	if (argc <= 4)
 		sort_small_stack(stacks, stack_a, stacks->len_a);
 	else
 		turk(stacks);

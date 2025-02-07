@@ -6,14 +6,18 @@ t_intlist *find_cand_place_b(t_stacks *stacks, int cand_val, int len)
 
 	if (cand_val > stacks->tail_b->element || cand_val < stacks->head_b->element)
 	{
+		//ft_printf("cand when tail or head: %d\n", cand_val);
+		//ft_printf("tail: %d\n", stacks->tail_b->element);
+		//ft_printf("head: %d\n", stacks->tail_b->element);
+		//print_stack(stacks->b, stacks->len_b, 'b', 0);
 		return (stacks->tail_b);
 	}
 	cur_node = stacks->tail_b;
 	while (len--)
 	{
+		cur_node = cur_node->next;
 		if (cand_val > cur_node->element)
 			break ;
-		cur_node = cur_node->next;
 	}
 	return (cur_node);
 }
