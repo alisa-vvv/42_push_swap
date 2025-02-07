@@ -8,6 +8,7 @@ then
 	rm multitest_out.txt
 fi
 touch multitest_out.txt
+mkdir -p failed_tests
 i=0
 while [ $i -lt $tests_count ]
 do
@@ -19,5 +20,10 @@ do
 	shuf -i "$range" -n $amount >> input.txt
 	sed -i ':a;N;$!ba;s/\n/ /g' input.txt
 	make run | wc -l >> multitest_out.txt
+	if [ "$(tail -n 1 multitest_out.txt)" -gt 700 ]
+	then
+		mkdir -p failed_tests/$(tail -n 1 multitest_out.txt)
+		cp input.txt failed_tests/$(tail -n 1 multitest_out.txt)/${i}
+	fi
 	true $((i=i+1))
 done

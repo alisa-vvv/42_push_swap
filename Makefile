@@ -13,6 +13,11 @@
 CFILES	=	push_swap.c\
 			median_of_medians.c\
 			sorting.c\
+			opcount_wrappers.c\
+			rotation_counting.c\
+			combination_counting.c\
+			candidate_b_to_a.c\
+			candidate_find_b_to_a.c\
 			three_or_less.c\
 			lis.c\
 			list_funcs.c\
@@ -53,6 +58,8 @@ RM	= rm -f
 NAME	= push_swap
 
 INPUT	= `cat input.txt`
+
+MAKEFLAGS	= -s
 #INPUT	= 1 5 3 4 9 6
 
 $(OBJDIR):
