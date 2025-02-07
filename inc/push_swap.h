@@ -108,12 +108,19 @@ t_opcount	count_ra_rrb(t_opcount opcount);
 t_opcount	count_rb_rra(t_opcount opcount);
 t_opcount	find_smallest_opcount(t_opcount opc);
 
-/*	determening candidate*/
+/*	determening candidate (b to a)*/
 t_intlist *find_cand_place_a(t_stacks *stacks, int cand_val, int len);
 t_intlist *find_cand_b(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot);
 t_opcount	check_cand_opcount_b(t_stacks *stacks, t_intlist *cand);
 void	count_to_a(t_stacks *stacks, t_opcount *opc, t_intlist *cand);
 void	count_from_b(t_intlist *b, t_opcount *opc, t_intlist *cand);
+
+/*	determening candidate (a to b)*/
+t_intlist *find_cand_place_b(t_stacks *stacks, int cand_val, int len);
+t_intlist *find_cand_a(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot);
+t_opcount	check_cand_opcount_a(t_stacks *stacks, t_intlist *cand);
+void	count_to_b(t_stacks *stacks, t_opcount *opc, t_intlist *cand);
+void	count_from_a(t_intlist *a, t_opcount *opc, t_intlist *cand);
 
 /* sorting */
 void	turk(t_stacks *stacks);

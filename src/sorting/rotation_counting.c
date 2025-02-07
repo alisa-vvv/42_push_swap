@@ -12,7 +12,7 @@ int	count_rev_rots(t_intlist *node, const t_intlist *target)
 	}
 	return (count);
 }
-	
+
 int	count_obv_rots(t_intlist *node, const t_intlist *target)
 {
 	int	count;

@@ -1,5 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
+# **************************************************************************** # #
 #                                                         :::      ::::::::    #
 #    Makefile                                            :+:    :+:            #
 #                                                     +:+ +:+         +:+      #
@@ -18,6 +17,8 @@ CFILES	=	push_swap.c\
 			combination_counting.c\
 			candidate_b_to_a.c\
 			candidate_find_b_to_a.c\
+			candidate_a_to_b.c\
+			candidate_find_a_to_b.c\
 			three_or_less.c\
 			lis.c\
 			list_funcs.c\
@@ -34,7 +35,8 @@ OBJDIR = obj
 
 SRCDIR = src
 
-SRCDIRS = $(addprefix $(SRCDIR)/, sorting list_ops init_exit operations) $(SRCDIR)
+SRCDIRS = $(addprefix $(SRCDIR)/, sorting sorting/b_to_a sorting/a_to_b\
+		  list_ops init_exit operations) $(SRCDIR)
 
 OFILES	= $(addprefix $(OBJDIR)/,$(CFILES:.c=.o))
 
