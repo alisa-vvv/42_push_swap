@@ -1,6 +1,7 @@
 #include "push_swap.h"
 
 //	REFACTOR THIS SO PRINT_STACK_A AND PTRINT_STACK_B ARE SEPARATE FUNCS
+//	or don't lol
 void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 {
 	int	element_num;
@@ -9,7 +10,6 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 	{
 		ft_printf("\n Stack %c has 1 element:\n", a_or_b);
 		ft_printf("\tValue: %d\n", stack->element);
-		ft_printf("\tSorted?: %d\n", stack->sorted);
 		ft_printf("\t\tPrev: %d\n", stack->prev->element);
 		ft_printf("\t\tNext: %d\n", stack->next->element);
 	}
@@ -28,7 +28,6 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 			{
 				ft_printf("    Element #%d:\n", element_num);
 				ft_printf("\tValue: %d\n", stack->element);
-				ft_printf("\tSorted?: %d\n", stack->sorted);
 				ft_printf("\t\tPrev: %d\n", stack->prev->element);
 				ft_printf("\t\tNext: %d\n", stack->next->element);
 				element_num++;
@@ -41,7 +40,6 @@ void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next)
 			{
 				ft_printf("    Element #%d:\n", element_num);
 				ft_printf("\tValue: %d\n", stack->element);
-				ft_printf("\tSorted?: %d\n", stack->sorted);
 				element_num++;
 				stack = stack->next;
 			}

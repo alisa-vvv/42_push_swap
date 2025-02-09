@@ -10,7 +10,6 @@
 # **************************************************************************** #
 
 CFILES	=	push_swap.c\
-			median_of_medians.c\
 			sorting.c\
 			opcount_wrappers.c\
 			rotation_counting.c\
@@ -20,12 +19,10 @@ CFILES	=	push_swap.c\
 			candidate_a_to_b.c\
 			candidate_find_a_to_b.c\
 			three_or_less.c\
-			lis.c\
 			list_funcs.c\
 			list_wrappers.c\
 			init.c\
 			exit.c\
-			test_funcs.c\
 			swaps.c\
 			pushes.c\
 			rotates.c\
@@ -60,9 +57,13 @@ RM	= rm -f
 NAME	= push_swap
 
 INPUT	= `cat input.txt`
+#INPUT	= 1 2 3 4 5 6
 
 MAKEFLAGS	= -s
-#INPUT	= 1 5 3 4 9 6
+
+clangd:
+	$(MAKE) fclean
+	intercept-build-14 make all
 
 $(OBJDIR):
 	mkdir $@
@@ -105,10 +106,6 @@ test:	$(NAME)
 leak:	debug
 	valgrind -s --leak-check=full ./$(NAME) $(INPUT)
 
-clangd:
-	$(MAKE) fclean
-	intercept-build-14 make all
-
 input:
 	sh gen_testset.sh
 
@@ -121,4 +118,5 @@ multitest:
 check: $(NAME)
 	./$< $(INPUT) | ./checker_linux $(INPUT)
 
-.PHONY:	all clean fclean re libs_clean test leak debug gdb check run
+.PHONY:	clangd all clean fclean re libs_clean test leak debug gdb check run\
+		multitest

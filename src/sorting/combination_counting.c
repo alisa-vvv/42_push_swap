@@ -61,13 +61,9 @@ t_opcount	find_smallest_opcount(t_opcount opc)
 	t_opcount	smallest;
 
 	rr = count_rr(opc);
-	//ft_printf("rr: %d\n", count_total(rr));
 	rrr = count_rrr(opc);
-	//ft_printf("rrr: %d\n", count_total(rrr));
 	ra_rrb = count_ra_rrb(opc);
-	//ft_printf("ra_rrb: %d\n", count_total(ra_rrb));
 	rb_rra = count_rb_rra(opc);
-	//ft_printf("rb_rra: %d\n", count_total(ra_rrb));
 	smallest = rr;
 	if (count_total(smallest) > count_total(rrr))
 		smallest = rrr;
@@ -75,6 +71,5 @@ t_opcount	find_smallest_opcount(t_opcount opc)
 		smallest = ra_rrb;
 	if (count_total(smallest) > count_total(rb_rra))
 		smallest = rb_rra;
-	//ft_printf("is this smallest? %d\n", count_total(smallest));
 	return (smallest);
 }

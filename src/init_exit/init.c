@@ -4,15 +4,9 @@
 
 static int	push_swap_atoi(t_stacks *stacks, const char *str)
 {
-	int	sign;
-	long		tmp_n;
+	int		sign;
+	long	tmp_n;
 	int		str_len;
-	stacks->head_a = NULL;
-	stacks->tail_a = NULL;
-	stacks->head_a = NULL;
-	stacks->tail_a = NULL;
-	stacks->head_a = NULL;
-	stacks->tail_a = NULL;
 
 	sign = 1;
 	if (*str == '-' || *str == '+')
@@ -28,7 +22,8 @@ static int	push_swap_atoi(t_stacks *stacks, const char *str)
 		if (str[str_len] < '0' || str[str_len] > '9')
 			free_exit(stacks, 1);
 		tmp_n = tmp_n * 10 + str[str_len] - '0';
-		if ((sign == 1 && tmp_n > INT_MAX) || (sign == -1 && (-tmp_n < INT_MIN)))
+		if ((sign == 1 && tmp_n > INT_MAX) ||
+			(sign == -1 && (-tmp_n < INT_MIN)))
 			free_exit(stacks, 1);
 		str_len++;
 	}

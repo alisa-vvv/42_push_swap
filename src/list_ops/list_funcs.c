@@ -20,7 +20,6 @@ t_intlist	*add_node(int element)
 	if (!new_node)
 		return (NULL);
 	new_node->element = element;
-	new_node->sorted = false;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
