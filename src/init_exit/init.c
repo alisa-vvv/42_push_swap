@@ -22,8 +22,8 @@ static int	push_swap_atoi(t_stacks *stacks, const char *str)
 		if (str[str_len] < '0' || str[str_len] > '9')
 			free_exit(stacks, 1);
 		tmp_n = tmp_n * 10 + str[str_len] - '0';
-		if ((sign == 1 && tmp_n > INT_MAX) ||
-			(sign == -1 && (-tmp_n < INT_MIN)))
+		if ((sign == 1 && tmp_n > INT_MAX)
+			|| (sign == -1 && (-tmp_n < INT_MIN)))
 			free_exit(stacks, 1);
 		str_len++;
 	}
@@ -72,7 +72,7 @@ static void	check_dups(t_stacks *stacks, int count)
 
 void	fill_stack(t_stacks *stacks, int count, char **numbers)
 {
-	int	i;
+	int			i;
 	t_intlist	*head;
 	t_intlist	*new_node;
 

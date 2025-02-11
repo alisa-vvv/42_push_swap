@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-t_intlist 	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
+t_intlist	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
 {
 	t_intlist	*node;
 
@@ -20,7 +20,7 @@ t_intlist 	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
 		node = stacks->a;
 	else if (stack == stack_b)
 		node = stacks->b;
-	while(--n)
+	while (--n)
 		node = node->next;
 	return (node);
 }
@@ -36,4 +36,3 @@ void	swap_nodes(t_intlist *node1, t_intlist *node2)
 	node1->prev->next = node2;
 	node1->prev = node2;
 }
-

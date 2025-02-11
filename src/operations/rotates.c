@@ -4,14 +4,14 @@ void	ra(t_stacks *stacks)
 {
 	if (stacks->len_a > 1)
 		stacks->a = stacks->a->next;
-	ft_printf("ra\n");
+	write(STDOUT_FILENO, "ra\n", 3);
 }
 
 void	rb(t_stacks *stacks)
 {
 	if (stacks->len_b > 1)
 		stacks->b = stacks->b->next;
-	ft_printf("rb\n");
+	write(STDOUT_FILENO, "rb\n", 3);
 }
 
 void	rr(t_stacks *stacks)
@@ -20,5 +20,5 @@ void	rr(t_stacks *stacks)
 		stacks->a = stacks->a->next;
 	if (stacks->len_b > 1)
 		stacks->b = stacks->b->next;
-	ft_printf("rr\n");
+	write(STDOUT_FILENO, "rr\n", 3);
 }

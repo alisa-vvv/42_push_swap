@@ -1,19 +1,19 @@
 #include "push_swap.h"
 
-void	sort_two(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b)
+void	sort_two(t_stacks *stacks, t_intlist *stack, e_op_stack a_b)
 {
-	const int el1 = sorted_stack->element;
-	const int el2 = sorted_stack->next->element;
+	const int el1 = stack->element;
+	const int el2 = stack->next->element;
 	
 	if (el1 > el2)
 		do_op(stacks, op_swap, a_b, 1);
 }
 
-void	sort_three(t_stacks *stacks, t_intlist *sorted_stack, e_op_stack a_b)
+void	sort_three(t_stacks *stacks, t_intlist *stack, e_op_stack a_b)
 {
-	const int el1 = sorted_stack->element;
-	const int el2 = sorted_stack->next->element;
-	const int el3 = sorted_stack->prev->element;
+	const int el1 = stack->element;
+	const int el2 = stack->next->element;
+	const int el3 = stack->prev->element;
 	
 	if (el1 < el2 && el2 < el3)
 		return ;

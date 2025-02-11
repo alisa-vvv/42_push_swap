@@ -19,14 +19,14 @@ void	sa(t_stacks *stacks)
 
 	if (stacks->len_a <= 1)
 	{
-		ft_printf("sa\n");
+		write(STDOUT_FILENO, "sa\n", 3);
 		return ;
 	}
 	new_top = stacks->a->next;
 	if (stacks->len_a != 2)
 		swap(stacks->a, stacks->a->next, stacks->a->prev);
 	stacks->a = new_top;
-	ft_printf("sa\n");
+	write(STDOUT_FILENO, "sa\n", 3);
 }
 
 void	sb(t_stacks *stacks)
@@ -35,14 +35,14 @@ void	sb(t_stacks *stacks)
 
 	if (stacks->len_b <= 1)
 	{
-		ft_printf("sb\n");
+		write(STDOUT_FILENO, "sb\n", 3);
 		return ;
 	}
 	new_top = stacks->b->next;
 	if (stacks->len_b != 2)
 		swap(stacks->b, stacks->b->next, stacks->b->prev);
 	stacks->b = new_top;
-	ft_printf("sb\n");
+	write(STDOUT_FILENO, "sb\n", 3);
 }
 
 void	ss(t_stacks *stacks)
@@ -63,6 +63,6 @@ void	ss(t_stacks *stacks)
 			swap(stacks->b, stacks->b->next, stacks->b->prev);
 		stacks->b = new_top;
 	}
-	ft_printf("ss\n");
+	write(STDOUT_FILENO, "ss\n", 3);
 }
 

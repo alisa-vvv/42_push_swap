@@ -38,3 +38,20 @@ t_opcount	init_opcount(void)
 	return (opcount);
 }
 
+void	execute_operations(t_stacks *stacks, t_opcount ops, e_op_stack dst)
+{
+	if (ops.rr_count)
+		do_op(stacks, op_rot, both, ops.rr_count);
+	if (ops.rrr_count)
+		do_op(stacks, op_rrot, both, ops.rrr_count);
+	if (ops.ra_count)
+		do_op(stacks, op_rot, stack_a, ops.ra_count);
+	if (ops.rb_count)
+		do_op(stacks, op_rot, stack_b, ops.rb_count);
+	if (ops.rra_count)
+		do_op(stacks, op_rrot, stack_a, ops.rra_count);
+	if (ops.rrb_count)
+		do_op(stacks, op_rrot, stack_b, ops.rrb_count);
+	do_op(stacks, op_push, dst, 1);
+}
+

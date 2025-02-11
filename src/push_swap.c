@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   push_swap.c                                       :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 13:42:47 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 13:44:45 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
 {
-	while(n--)
+	while (n--)
 		f(stacks);
 }
 
@@ -66,7 +78,7 @@ int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
 
-	if (argc == 1 || argc == 2)	
+	if (argc == 1 || argc == 2)
 		exit (0);
 	stacks = allocate_stacks(argc - 1);
 	if (!stacks)
@@ -78,8 +90,6 @@ int	main(int argc, char **argv)
 		sort_small_stack(stacks, stack_a, stacks->len_a);
 	else
 		turk(stacks);
-//	print_stack(stacks->a, stacks->len_a, 'a', 0);
-//	print_stack(stacks->b, stacks->len_b, 'b', 0);
 	free_exit(stacks, 0);
 	return (0);
 }

@@ -1,6 +1,5 @@
 #include "push_swap.h"
 
-//	delete the part that uses pointer to len, it's useless
 //	error_chek is 0 on success, 1 on fail
 static void	list_clear(t_intlist *node, int len)
 {
@@ -21,8 +20,8 @@ static void	print_err_and_exit(int error_check)
 	if (error_check)
 		write(STDERR_FILENO, "Error\n", 6);
 	exit(error_check);
-
 }
+
 void	free_exit(t_stacks *stacks, int error_check)
 {
 	if (!stacks)
