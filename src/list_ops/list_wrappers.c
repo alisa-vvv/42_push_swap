@@ -12,7 +12,20 @@
 
 #include "push_swap.h"
 
-t_intlist	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
+t_intlist	*add_node(int element)
+{
+	t_intlist	*new_node;
+
+	new_node = (t_intlist *) malloc(sizeof(t_intlist));
+	if (!new_node)
+		return (NULL);
+	new_node->element = element;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	return (new_node);
+}
+
+t_intlist	*get_element_n(t_stacks *stacks, t_op_stack stack, int n)
 {
 	t_intlist	*node;
 
@@ -23,16 +36,4 @@ t_intlist	*get_element_n(t_stacks *stacks, e_op_stack stack, int n)
 	while (--n)
 		node = node->next;
 	return (node);
-}
-
-void	swap_nodes(t_intlist *node1, t_intlist *node2)
-{
-	t_intlist	*tmp_next;
-
-	tmp_next = node2->next;
-	node2->next = node1;
-	node1->next = tmp_next;
-	node2->prev = node1->prev;
-	node1->prev->next = node2;
-	node1->prev = node2;
 }

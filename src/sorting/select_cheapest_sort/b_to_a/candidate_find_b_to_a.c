@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   candidate_find_b_to_a.c                           :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 15:28:59 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 15:29:26 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 t_opcount	check_cand_opcount_b(t_stacks *stacks, t_intlist *cand)
@@ -65,12 +77,12 @@ int	cand_obv_b(t_stacks *stacks, t_opcount *opc, t_intlist **cand, int tot)
 	return (pot_tot);
 }
 
-t_intlist *find_cand_b(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
+t_intlist	*find_cand_b(t_stacks *stacks, t_opcount *pot_opcount, int cur_tot)
 {
 	t_intlist	*pot_candidate;
 	int			pot_tot;
 	t_opcount	new_opcount;
-	
+
 	pot_candidate = NULL;
 	new_opcount = init_opcount();
 	pot_tot = cand_obv_b(stacks, &new_opcount, &pot_candidate, cur_tot);

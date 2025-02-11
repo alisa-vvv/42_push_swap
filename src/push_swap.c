@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2025/02/11 13:42:47 by avaliull     #+#    #+#                  */
-/*   Updated: 2025/02/11 13:44:45 by avaliull     ########   odam.nl          */
+/*   Updated: 2025/02/11 16:56:42 by avaliull     ########   odam.nl          */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	do_n_times(t_stacks *stacks, void (*f)(t_stacks *stacks), int n)
 		f(stacks);
 }
 
-void	do_rot(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
+static void	do_rot(t_stacks *stacks, t_op_name op, t_op_stack stack, int n)
 {
 	if (op == op_rot)
 	{
@@ -40,7 +40,7 @@ void	do_rot(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
 	}
 }
 
-void	do_op(t_stacks *stacks, e_op_name op, e_op_stack stack, int n)
+void	do_op(t_stacks *stacks, t_op_name op, t_op_stack stack, int n)
 {
 	if (op == op_swap)
 	{
@@ -78,7 +78,7 @@ int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
 
-	if (argc == 1 || argc == 2)
+	if (argc == 1)
 		exit (0);
 	stacks = allocate_stacks(argc - 1);
 	if (!stacks)
@@ -89,7 +89,7 @@ int	main(int argc, char **argv)
 	if (argc <= 4)
 		sort_small_stack(stacks, stack_a, stacks->len_a);
 	else
-		turk(stacks);
+		select_cheapest_sort(stacks);
 	free_exit(stacks, 0);
 	return (0);
 }

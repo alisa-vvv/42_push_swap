@@ -10,7 +10,7 @@
 # **************************************************************************** #
 
 CFILES	=	push_swap.c\
-			sorting.c\
+			select_cheapest_sort.c\
 			opcount_wrappers.c\
 			rotation_counting.c\
 			combination_counting.c\
@@ -19,7 +19,6 @@ CFILES	=	push_swap.c\
 			candidate_a_to_b.c\
 			candidate_find_a_to_b.c\
 			three_or_less.c\
-			list_funcs.c\
 			list_wrappers.c\
 			init.c\
 			exit.c\
@@ -32,7 +31,8 @@ OBJDIR = obj
 
 SRCDIR = src
 
-SRCDIRS = $(addprefix $(SRCDIR)/, sorting sorting/b_to_a sorting/a_to_b\
+SRCDIRS = $(addprefix $(SRCDIR)/, sorting sorting/select_cheapest_sort\
+		  sorting/select_cheapest_sort/b_to_a sorting/select_cheapest_sort/a_to_b\
 		  list_ops init_exit operations) $(SRCDIR)
 
 OFILES	= $(addprefix $(OBJDIR)/,$(CFILES:.c=.o))
@@ -50,14 +50,17 @@ INCLUDE = inc $(LIBFT_PRINTF_DIR)
 
 CC	= cc
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -o3
 
 RM	= rm -f
 
 NAME	= push_swap
 
-INPUT	= `cat input.txt`
-#INPUT	= 1 2 3 4 5 6
+#INPUT	= `cat input.txt`
+#INPUT	= 2
+#INPUT	= icecream
+#INPUT	= 1 2 -3 4 4 -5 6 2147483647 2147483647
+#INPUT	= 1 1 2 -3 4 -5 -2147483649 6 2147483647 -2147483648
 
 MAKEFLAGS	= -s
 
@@ -104,7 +107,7 @@ test:	$(NAME)
 	./$< $(INPUT)
 
 leak:	debug
-	valgrind -s --leak-check=full ./$(NAME) $(INPUT)
+	valgrind -s --leak-check=full --show-leak-kinds=all ./$(NAME) $(INPUT)
 
 input:
 	sh gen_testset.sh
@@ -113,7 +116,7 @@ run:
 	./push_swap $(INPUT)
 
 multitest:
-	sh multitest.sh
+	multitester/multitest.sh
 
 check: $(NAME)
 	./$< $(INPUT) | ./checker_linux $(INPUT)

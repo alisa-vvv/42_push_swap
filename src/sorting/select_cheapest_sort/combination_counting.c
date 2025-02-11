@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   combination_counting.c                            :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 15:16:27 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 15:16:28 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 t_opcount	count_rr(t_opcount opcount)

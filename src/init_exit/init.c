@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   init.c                                            :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 15:08:11 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 17:18:48 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
-#include <unistd.h>
 #include <limits.h>
 
 static int	push_swap_atoi(t_stacks *stacks, const char *str)
 {
 	int		sign;
 	long	tmp_n;
-	int		str_len;
+	int		i;
 
 	sign = 1;
 	if (*str == '-' || *str == '+')
@@ -15,17 +26,17 @@ static int	push_swap_atoi(t_stacks *stacks, const char *str)
 			sign = -sign;
 		str++;
 	}
-	str_len = 0;
+	i = 0;
 	tmp_n = 0;
-	while (str[str_len])
+	while (str[i])
 	{
-		if (str[str_len] < '0' || str[str_len] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			free_exit(stacks, 1);
-		tmp_n = tmp_n * 10 + str[str_len] - '0';
+		tmp_n = tmp_n * 10 + str[i] - '0';
 		if ((sign == 1 && tmp_n > INT_MAX)
 			|| (sign == -1 && (-tmp_n < INT_MIN)))
 			free_exit(stacks, 1);
-		str_len++;
+		i++;
 	}
 	return (sign * (int) tmp_n);
 }
@@ -40,8 +51,6 @@ static void	cmp_loop(t_stacks *stacks, t_intlist *node, int c, int cmp_c)
 	while (c--)
 	{
 		element_num++;
-		if (element_num == c)
-			return ;
 		i = 0;
 		while (i < element_num)
 		{
@@ -77,11 +86,13 @@ void	fill_stack(t_stacks *stacks, int count, char **numbers)
 	t_intlist	*new_node;
 
 	stacks->a = add_node(push_swap_atoi(stacks, numbers[0]));
+	if (count == 1)
+		free_exit(stacks, 0);
 	if (!stacks->a)
 		free_exit(stacks, 1);
 	head = stacks->a;
-	i = 1;
-	while (i < count)
+	i = 0;
+	while (++i < count)
 	{
 		new_node = add_node(push_swap_atoi(stacks, numbers[i]));
 		if (!new_node)
@@ -90,7 +101,6 @@ void	fill_stack(t_stacks *stacks, int count, char **numbers)
 		new_node->prev = stacks->a;
 		stacks->a = new_node;
 		new_node->next = NULL;
-		i++;
 	}
 	head->prev = stacks->a;
 	stacks->a->next = head;

@@ -1,20 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   three_or_less.c                                   :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 15:19:11 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 16:02:14 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	sort_two(t_stacks *stacks, t_intlist *stack, e_op_stack a_b)
+void	sort_three(t_stacks *stacks, t_intlist *stack, t_op_stack a_b)
 {
-	const int el1 = stack->element;
-	const int el2 = stack->next->element;
-	
-	if (el1 > el2)
-		do_op(stacks, op_swap, a_b, 1);
-}
+	const int	el1 = stack->element;
+	const int	el2 = stack->next->element;
+	const int	el3 = stack->prev->element;
 
-void	sort_three(t_stacks *stacks, t_intlist *stack, e_op_stack a_b)
-{
-	const int el1 = stack->element;
-	const int el2 = stack->next->element;
-	const int el3 = stack->prev->element;
-	
 	if (el1 < el2 && el2 < el3)
 		return ;
 	if (el1 < el2 && el2 > el3)
@@ -22,11 +25,20 @@ void	sort_three(t_stacks *stacks, t_intlist *stack, e_op_stack a_b)
 	if ((el1 > el2 && el2 > el3) || (el1 > el2 && el2 < el3 && el3 < el1))
 		do_op(stacks, op_rot, a_b, 1);
 	if ((el1 < el2 && el2 > el3 && el3 > el1) || (el1 > el2 && el2 > el3)
-			|| (el1 > el2 && el2 < el3 && el3 > el1))
+		|| (el1 > el2 && el2 < el3 && el3 > el1))
 		do_op(stacks, op_swap, a_b, 1);
 }
 
-void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len)
+static void	sort_two(t_stacks *stacks, t_intlist *stack, t_op_stack a_b)
+{
+	const int	el1 = stack->element;
+	const int	el2 = stack->next->element;
+
+	if (el1 > el2)
+		do_op(stacks, op_swap, a_b, 1);
+}
+
+void	sort_small_stack(t_stacks *stacks, t_op_stack op_stack, int len)
 {
 	t_intlist	*sorted_stack;
 
@@ -41,4 +53,3 @@ void	sort_small_stack(t_stacks *stacks, e_op_stack op_stack, int len)
 	else if (len == 3)
 		sort_three(stacks, sorted_stack, op_stack);
 }
-

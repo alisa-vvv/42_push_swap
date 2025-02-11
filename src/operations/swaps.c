@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   swaps.c                                           :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2025/02/11 15:14:36 by avaliull     #+#    #+#                  */
+/*   Updated: 2025/02/11 15:15:58 by avaliull     ########   odam.nl          */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node)
+void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node)
 {
 	t_intlist	*tmp_next;
 
@@ -12,7 +24,7 @@ static void	swap(t_intlist *top_node, t_intlist *next_node, t_intlist *prev_node
 	prev_node->next = next_node;
 	top_node->prev = next_node;
 }
-	
+
 void	sa(t_stacks *stacks)
 {
 	t_intlist	*new_top;
@@ -65,4 +77,3 @@ void	ss(t_stacks *stacks)
 	}
 	write(STDOUT_FILENO, "ss\n", 3);
 }
-
