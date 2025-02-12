@@ -17,3 +17,5 @@ imgui.ini
 input.txt
 multitester
 multitester/*
+push_swap_test_linux.sh
+traces.txt
