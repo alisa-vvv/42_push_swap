@@ -25,7 +25,8 @@ CFILES	=	push_swap.c\
 			swaps.c\
 			pushes.c\
 			rotates.c\
-			reverse_rotates.c
+			reverse_rotates.c\
+			test_funcs.c
 
 OBJDIR = obj
 
@@ -56,11 +57,12 @@ RM	= rm -f
 
 NAME	= push_swap
 
-#INPUT	= `cat input.txt`
-#INPUT	= 2
+INPUT	= `cat input.txt`
 #INPUT	= icecream
 #INPUT	= 1 2 -3 4 4 -5 6 2147483647 2147483647
 #INPUT	= 1 1 2 -3 4 -5 -2147483649 6 2147483647 -2147483648
+#INPUT = 2 0 3 1
+##INPUT = 3 1 4 2 5
 
 MAKEFLAGS	= -s
 

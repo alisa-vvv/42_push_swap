@@ -101,7 +101,7 @@ t_opcount	init_opcount(void);
 /* 		Sorting functions	 */
 void		select_cheapest_sort(t_stacks *stacks);
 void		sort_small_stack(t_stacks *stacks, t_op_stack op_stack, int len);
-void		sort_three(t_stacks *stacks, t_intlist *stack, t_op_stack a_b);
+//void		sort_three(t_stacks *stacks, t_intlist *stack, t_op_stack a_b);
 
 /*		For Select Cheapest Sort		*/
 void		execute_operations(t_stacks *stacks, t_opcount ops, t_op_stack dst);
@@ -129,6 +129,6 @@ void		count_to_b(t_stacks *stacks, t_opcount *opc, t_intlist *cand);
 void		count_from_a(t_intlist *a, t_opcount *opc, t_intlist *cand);
 
 /* test functions (keep commented) */
-//void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next);
+void	print_stack(t_intlist *stack, int len, char a_or_b, int with_prev_next);
 
 #endif

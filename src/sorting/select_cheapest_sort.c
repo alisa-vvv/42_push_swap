@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2025/02/11 15:17:39 by avaliull     #+#    #+#                  */
-/*   Updated: 2025/02/11 16:01:47 by avaliull     ########   odam.nl          */
+/*   Updated: 2025/02/12 13:05:19 by avaliull     ########   odam.nl          */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	select_cheapest_sort(t_stacks *stacks)
 	push_to_b(stacks);
 	if (stacks->b != stacks->head_b)
 		put_biggest_on_top(stacks);
-	sort_three(stacks, stacks->a, stacks->len_a);
+	sort_small_stack(stacks, stack_a, stacks->len_a);
 	stacks->head_a = stacks->a;
 	stacks->tail_a = stacks->a->prev;
 	cheapest_to_a(stacks);

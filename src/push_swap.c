@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>        +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2025/02/11 13:42:47 by avaliull     #+#    #+#                  */
-/*   Updated: 2025/02/11 16:56:42 by avaliull     ########   odam.nl          */
+/*   Updated: 2025/02/12 13:18:59 by avaliull     ########   odam.nl          */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	is_sorted(t_intlist *node, int len)
 	return (1);
 }
 
+//	print_stack(stacks->a, stacks->len_a, stack_a, 1);
+//	print_stack(stacks->b, stacks->len_b, stack_b, 1);
 int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
